@@ -44,15 +44,8 @@ func EjecutarComandoMKDISK(nombreComando string,propiedadesTemp []Propiedad)(Par
 	    	comandos +=" bs=" + strconv.Itoa(int(tamanioTotal)-1) + "M"+ " count=1"
 	    }	   
 	    //com := "dd if=/dev/zero of=/home/edson/Escritorio/Proyecto/Proyecto1/dico1.disk count=1 bs=1M"
-	    args:= strings.Split(comandos," ")
-	    cmd := exec.Command(args[0],args[1:]...)
-	    b, err := cmd.CombinedOutput()
-	    if err != nil{
-	    	fmt.Println(err)  
-	    	fmt.Println(b) 	
-	    }else{
-	    	fmt.Println("Disco Creado Exitosamente")
-	    }
+	    executeComand(comandos)
+	    fmt.Println("Disco Creado Exitosamente")
 	    return ParamValidos
 	}else{
 		ParamValidos = false

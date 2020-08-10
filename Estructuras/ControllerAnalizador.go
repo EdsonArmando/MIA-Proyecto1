@@ -67,6 +67,11 @@ func RecorrerListaComando(ListaComandos *list.List){
              if ParamValidos == false{
                 fmt.Println("Parametros Invalidos")
             }
+        case "exit":
+            fmt.Println("Finalizo la Ejecucion")
+        case "pause":
+            fmt.Println("Presione una tecla para Continuar")
+            fmt.Scanln() 
         case "unmount":
             ParamValidos = EjecutarComandoUnmount(comandoTemp.Name,comandoTemp.Propiedades)
              if ParamValidos == false{
