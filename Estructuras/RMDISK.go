@@ -13,7 +13,8 @@ func EjecutarComandoRMDISK(nombreComando string,propiedadesTemp []Propiedad)(Par
 	        var nombrePropiedad string= propiedadTemp.Name
 	        switch strings.ToLower(nombrePropiedad){
 	        case "-path":
-	        	fmt.Println(propiedadTemp.Val)
+	        	executeComand("rm " + propiedadTemp.Val)
+	        	fmt.Println("Disco Elimindo Correctamente")
 	    	default:
 	    		fmt.Println("Error al Ejecutar el Comando")
 	        }

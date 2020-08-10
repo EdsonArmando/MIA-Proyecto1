@@ -11,9 +11,13 @@ func LeerTexto(dat string){
 	lineaComando := strings.Split(dat, "\n")
 	var c Comando
 	    for i:=0; i < len(lineaComando); i++{
-        EsComentario :=  lineaComando[i][0:1]
+            EsComentario :=  lineaComando[i][0:1]
         if EsComentario != "#" {
             comando := lineaComando[i]
+            if strings.Contains(lineaComando[i], "\\*")  {
+                comando = strings.Replace(lineaComando[i], "\\*", " ", 1) + lineaComando[i+1]
+                i=i+1
+            }
             propiedades := strings.Split(string(comando), " ")
             //Nombre Comando
             nombreComando := propiedades[0] 
@@ -24,7 +28,7 @@ func LeerTexto(dat string){
                 if propiedades[i]==""{
                     continue
                 }
-                valor_propiedad_Comando := strings.Split(propiedades[i], "=")
+                valor_propiedad_Comando := strings.Split(propiedades[i], "->")
                 propiedadesTemp[i-1]= Propiedad{Name:valor_propiedad_Comando[0],
                 Val:valor_propiedad_Comando[1]}
             }
