@@ -12,12 +12,12 @@ type Comando struct {
 }
 
 type Particion struct{
-        status_particion bool
-        tipoParticion string
-        tipoAjuste string
-        inicio_particion uint16
-        tamanioTotal uint16
-        nombreParticion string
+        Status_particion bool
+        TipoParticion [1]byte
+        TipoAjuste [1]byte
+        Inicio_particion int64
+        TamanioTotal int64
+        NombreParticion [10]byte
 }
     //Struct para el MBR
  type  MBR struct{
@@ -25,6 +25,7 @@ type Particion struct{
         MbrFechaCreacion [16]byte
         NoIdentificador uint8
         TipoAjuste [1]byte
+        Particiones [4]Particion
 }
 
 
