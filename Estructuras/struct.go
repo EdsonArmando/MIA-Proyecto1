@@ -10,11 +10,11 @@ type Comando struct {
     Name string
     Propiedades []Propiedad
 }
-
+//Estructuras para el Disco y Particiones
 type Particion struct{
-        Status_particion bool
+        Status_particion [1]byte
         TipoParticion [1]byte
-        TipoAjuste [1]byte
+        TipoAjuste [2]byte
         Inicio_particion int64
         TamanioTotal int64
         NombreParticion [10]byte
@@ -22,12 +22,19 @@ type Particion struct{
     //Struct para el MBR
  type  MBR struct{
         MbrTamanio int64
-        MbrFechaCreacion [16]byte
-        NoIdentificador uint8
-        TipoAjuste [1]byte
+        MbrFechaCreacion [19]byte
+        NoIdentificador int64
         Particiones [4]Particion
 }
-
+//Struct para las particiones Logicas
+type EBR struct{
+        Status_particion [1]byte
+        TipoAjuste [2]byte
+        Inicio_particion int64
+        Particion_Siguiente int64
+        TamanioTotal int64
+        NombreParticion [10]byte
+}
 
 type Integers struct {
 	I1 uint16

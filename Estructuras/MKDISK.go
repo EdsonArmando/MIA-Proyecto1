@@ -5,15 +5,20 @@ import (
 	"os/exec"
 	"strconv"
 	"encoding/binary"
+	"time"
 	"log"
+	"math/rand"
 	"os"
 )
+/*
+Vector 
 
-func EjecutarComandoMKDISK(nombreComando string,propiedadesTemp []Propiedad)(ParamValidos bool){
+*/
+func EjecutarComandoMKDISK(nombreComando string,propiedadesTemp []Propiedad,cont int)(ParamValidos bool){
+	dt := time.Now()
 	mbr1 := MBR{}
-	copy(mbr1.MbrFechaCreacion[:], "11/08/2020")
-	mbr1.NoIdentificador = 25
-	copy(mbr1.TipoAjuste[:], "f")
+	copy(mbr1.MbrFechaCreacion[:], dt.String())
+	mbr1.NoIdentificador = int64(rand.Intn(100)+cont)
 	fmt.Println("----------------- Ejecutando MKDISK -----------------")
 	comandos := "dd if=/dev/zero ";
 	ParamValidos = true
@@ -27,9 +32,6 @@ func EjecutarComandoMKDISK(nombreComando string,propiedadesTemp []Propiedad)(Par
 	        switch strings.ToLower(nombrePropiedad){
 	        case "-size":
 	        	propiedades [0]=propiedadTemp.Val
-	    	case "-fit":
-	    		propiedades [1]=propiedadTemp.Val
-	    		copy(mbr1.TipoAjuste[:],propiedades [1])
 	        case "-unit":
 	        	propiedades [2]=strings.ToLower(propiedadTemp.Val)
 	        case "-path":
@@ -47,12 +49,21 @@ func EjecutarComandoMKDISK(nombreComando string,propiedadesTemp []Propiedad)(Par
 	    }
 	    tamanioTotal ,_ := strconv.ParseInt(propiedades[0], 10, 64)
 	    if propiedades [2] == "k"{
-	    	comandos +=" bs=" + strconv.Itoa((int(tamanioTotal)-1)*1024) + " count=1"
-	    	mbr1.MbrTamanio=((tamanioTotal)-1)*1024
+	    	comandos +=" bs=" + strconv.Itoa((int(tamanioTotal))*1000) + " count=1"
+	    	mbr1.MbrTamanio=((tamanioTotal)-1)*1000
 	    }else{
-	    	comandos +=" bs=" + strconv.Itoa(int(tamanioTotal)-1) + "M"+ " count=1"
-	    	mbr1.MbrTamanio=tamanioTotal*1048576
-	    }	   
+	    	comandos +=" bs=" + strconv.Itoa(int(tamanioTotal)) + "MB"+ " count=1"
+	    	mbr1.MbrTamanio=tamanioTotal*1000000
+	    }
+	    //Inicializando Particiones
+	   	for i:=0; i < 4; i++{
+	   		copy(mbr1.Particiones[i].Status_particion[:], "0")
+	   		copy(mbr1.Particiones[i].TipoParticion[:], "")
+	   		copy(mbr1.Particiones[i].TipoAjuste[:], "")
+	   		mbr1.Particiones[i].Inicio_particion = 0
+	   		mbr1.Particiones[i].TamanioTotal = 0
+	   		copy(mbr1.Particiones[i].NombreParticion[:], "")
+	   	} 
 	    //com := "dd if=/dev/zero of=/home/edson/Escritorio/Proyecto/Proyecto1/dico1.disk count=1 bs=1M"
 	    executeComand(comandos)
 	    //Escribir MBR
@@ -65,39 +76,25 @@ func EjecutarComandoMKDISK(nombreComando string,propiedadesTemp []Propiedad)(Par
 				log.Fatalln(err)
 			}
 		}()
-		err = binary.Write(f, binary.LittleEndian, mbr1)
+		f.Seek(0,0)
+		err = binary.Write(f, binary.BigEndian, mbr1)
 		if err != nil {
 			log.Fatalln(err)
 		}
 		fmt.Println("Disco Creado Exitosamente")
-		ReadFile()
 	    return ParamValidos
 	}else{
 		ParamValidos = false
 		return ParamValidos
 	}
 }
-func ReadFile(){
-	f, err := os.Open("/home/edson/Escritorio/Proyecto/Proyecto1/Vivo/dico1.disk")
-	if err != nil {
-		log.Fatalln(err)
-	}
-	defer f.Close()
 
-	mbr := MBR{}
-	err = binary.Read(f, binary.LittleEndian, &mbr)
-	if err != nil {
-		log.Fatalln(err)
-	}
-	fmt.Println("-----La fecha de creacion es")
-	fmt.Println(BytesToString(mbr.MbrFechaCreacion))
-}
 func executeComand(comandos string){
 	args:= strings.Split(comandos," ")
     cmd := exec.Command(args[0],args[1:]...)
     cmd.CombinedOutput()
 }
-func BytesToString(data [16]byte) string {
+func BytesToString(data [1]byte) string {
 	return string(data[:])
 }
 func CheckError(e error) {

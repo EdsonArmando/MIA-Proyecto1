@@ -42,13 +42,15 @@ func LeerTexto(dat string){
 //Funcion para recorrer la Lista de Comandos
 func RecorrerListaComando(ListaComandos *list.List){
     var ParamValidos bool = true
+    var cont = 1
 	 for element := ListaComandos.Front(); element != nil; element = element.Next() {
         var comandoTemp Comando
         comandoTemp = element.Value.(Comando)
         //Lista de propiedades del Comando
         switch strings.ToLower(comandoTemp.Name){
         case "mkdisk":
-            ParamValidos = EjecutarComandoMKDISK(comandoTemp.Name,comandoTemp.Propiedades)
+            ParamValidos = EjecutarComandoMKDISK(comandoTemp.Name,comandoTemp.Propiedades,cont)
+            cont++
             if ParamValidos == false{
                 fmt.Println("Parametros Invalidos")
             }
