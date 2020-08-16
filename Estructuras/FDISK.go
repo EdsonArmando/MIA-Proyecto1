@@ -111,7 +111,68 @@ func EjecutarComandoFDISK(nombreComando string,propiedadesTemp []Propiedad)(Para
 	    case "l":
 	    	fmt.Println("Logica")
 	    case "e":
-	    	fmt.Println("Extendida")
+	    	//Particiones Extendidas
+	    	var Particiones [4]Particion 
+	    	f, err := os.OpenFile(propiedades[3],os.O_RDWR,0755)
+			if err != nil {
+				fmt.Println("No existe la ruta"+propiedades[3])
+				return false
+			}
+			defer f.Close()
+			f.Seek(0,0)
+			err = binary.Read(f, binary.BigEndian, &mbr)
+			Particiones = mbr.Particiones
+			if err != nil {
+				fmt.Println("No existe el archivo en la ruta")
+			}
+		//El mbr ya se a leido,2.Verificar si existe espacion disponible o que no lo rebase
+			if  (HayEspacio(TamanioTotalParticion,mbr.MbrTamanio)){
+				return false
+			}//Verificar si ya hay particiones
+			if BytesToString(Particiones[0].Status_particion)  == "1" {
+				fmt.Println("Ya existe una particion")
+				for i:=0;i<4;i++{
+					//Posicion en bytes del partstar de la n particion
+					startPart+=Particiones[i].TamanioTotal
+					if BytesToString(Particiones[i].Status_particion)  == "0"{
+						fmt.Println(startPart)
+						break
+					}
+				}
+			}
+			if(HayEspacio(startPart+TamanioTotalParticion,mbr.MbrTamanio)){
+				return false
+			}
+		//dando valores a la particion
+			copy(particion.Status_particion[:],"1")
+			copy(particion.TipoParticion[:], propiedades [4])
+	        copy(particion.TipoAjuste[:], propiedades [1])
+	        particion.Inicio_particion = startPart
+	       	particion.TamanioTotal = TamanioTotalParticion
+		    copy(particion.NombreParticion[:], propiedades [6])
+		    //Particion creada
+		    for i:=0;i<4;i++{
+					if  BytesToString(Particiones[i].Status_particion)  == "0"{
+		    			Particiones[i]=particion
+		    			break;
+		    		}	
+				}
+		    f.Seek(0,0)
+		    mbr.Particiones = Particiones
+		    err = binary.Write(f, binary.BigEndian, mbr)
+			ReadFile(propiedades [3])
+		    ebr :=EBR{}
+		    copy(ebr.Status_particion[:],"1")
+		    copy(ebr.TipoAjuste[:], propiedades [1])
+		    ebr.Inicio_particion = startPart
+		    ebr.Particion_Siguiente = 0
+		    ebr.TamanioTotal = TamanioTotalParticion
+		    copy(ebr.NombreParticion[:], propiedades [6])
+		    f.Seek(ebr.Inicio_particion,0)
+		    err = binary.Write(f, binary.BigEndian, ebr)
+		    //fmt.Println("******************EBR de la extendida")
+	    	fmt.Println("Extendida","Leendo EBR")
+	    	ReadFileEBR(propiedades [3])
 	    default:
 	    	fmt.Println("Ocurrio un error")
 	    }
@@ -121,6 +182,24 @@ func EjecutarComandoFDISK(nombreComando string,propiedadesTemp []Propiedad)(Para
 		ParamValidos = false
 		return ParamValidos
 	}
+}
+func ReadFileEBR(path string) (funciona bool){
+	f, err := os.OpenFile(path,os.O_RDONLY,0755)
+	if err != nil {
+		fmt.Println("No existe la ruta"+path)
+		return false
+	}
+	defer f.Close()
+	ebr := EBR{}
+	f.Seek(72200,0)
+	err = binary.Read(f, binary.BigEndian, &ebr)
+	if err != nil {
+		fmt.Println("No existe el archivo en la ruta")
+	}
+	fmt.Println("Tamanio del EBR")
+	fmt.Println(ebr)	
+	fmt.Printf("NombreExtendida: %s\n",ebr.NombreParticion)
+	return true
 }
 func ReadFile(path string) (funciona bool){
 	f, err := os.OpenFile(path,os.O_RDONLY,0755)
