@@ -109,7 +109,20 @@ func EjecutarComandoFDISK(nombreComando string,propiedadesTemp []Propiedad)(Para
 			err = binary.Write(f, binary.BigEndian, mbr)
 			ReadFile(propiedades [3])
 	    case "l":
-	    	fmt.Println("Logica")
+	    	fmt.Println("Particion Logica")
+	    	if !HayExtendida(propiedades [3]) {
+	    		fmt.Println("No existe una particon Extendida")
+	    		return false
+	    	}
+	    	ebr :=EBR{}
+		    copy(ebr.Status_particion[:],"1")
+		    copy(ebr.TipoAjuste[:], propiedades [1])
+		    ebr.Inicio_particion = startPart
+		    ebr.Particion_Siguiente = 0
+		    ebr.TamanioTotal = TamanioTotalParticion
+		    copy(ebr.NombreParticion[:], propiedades [6])
+		    //Obteniendo el byte donde empezara la particion Logica
+		    InicioParticionLogica(propiedades [3],ebr)
 	    case "e":
 	    	//Particiones Extendidas
 	    	var Particiones [4]Particion 
@@ -165,7 +178,7 @@ func EjecutarComandoFDISK(nombreComando string,propiedadesTemp []Propiedad)(Para
 		    copy(ebr.Status_particion[:],"1")
 		    copy(ebr.TipoAjuste[:], propiedades [1])
 		    ebr.Inicio_particion = startPart
-		    ebr.Particion_Siguiente = 0
+		    ebr.Particion_Siguiente = -1
 		    ebr.TamanioTotal = TamanioTotalParticion
 		    copy(ebr.NombreParticion[:], propiedades [6])
 		    f.Seek(ebr.Inicio_particion,0)
@@ -182,6 +195,116 @@ func EjecutarComandoFDISK(nombreComando string,propiedadesTemp []Propiedad)(Para
 		ParamValidos = false
 		return ParamValidos
 	}
+}
+func EscribirParticionLogica(path string, ebr EBR, inicioParticionLogica int64,inicioParticionExtendida int64)(bool){
+	ebr.Inicio_particion = inicioParticionLogica
+	ebr.Particion_Siguiente = inicioParticionLogica + ebr.TamanioTotal
+	/*ebr.Inicio_particion=inicioParticionLogica
+	f, err := os.OpenFile(path,os.O_RDWR,0755)
+	if err != nil {
+		fmt.Println("No existe la ruta"+path)
+		return false
+	}
+	defer f.Close()
+	f.Seek(inicioParticionLogica,0)
+	err = binary.Write(f, binary.BigEndian, ebr)
+	if err != nil {
+		fmt.Println("No existe el archivo en la ruta")
+	}*/
+	return true
+}
+func InicioParticionLogica(path string,ebr2 EBR)(bool){
+	f, err := os.OpenFile(path,os.O_RDWR,0755)
+	if err != nil {
+		fmt.Println("No existe la ruta"+path)
+		return false
+	}
+	defer f.Close()
+	mbr := MBR{}
+	f.Seek(0,0)
+	err = binary.Read(f, binary.BigEndian, &mbr)
+	Particiones := mbr.Particiones
+	for i:=0;i<4;i++{
+		if  strings.ToLower(BytesToString(Particiones[i].TipoParticion)) == "e"{
+			var InicioExtendida int64=Particiones[i].Inicio_particion
+			f.Seek(InicioExtendida,0)
+			ebr:=EBR{}
+			err = binary.Read(f, binary.BigEndian, &ebr)
+			if ebr.Particion_Siguiente == -1{
+				ebr.Particion_Siguiente = ebr.Inicio_particion +int64(unsafe.Sizeof(ebr)) +ebr2.TamanioTotal
+				f.Seek(InicioExtendida,0)
+				err = binary.Write(f, binary.BigEndian, ebr)
+				ebr2.Inicio_particion = ebr.Particion_Siguiente
+				ebr2.Particion_Siguiente = -1
+				f.Seek(ebr2.Inicio_particion,0)
+				err = binary.Write(f, binary.BigEndian, ebr2)
+
+				f.Seek(InicioExtendida,0)
+				err = binary.Read(f, binary.BigEndian, &ebr)
+				fmt.Println(ebr.Inicio_particion)
+				fmt.Println(ebr.Particion_Siguiente)
+				return false
+			}else {
+				fmt.Println("Inicio_particion2")
+				f.Seek(InicioExtendida,0)
+				err = binary.Read(f, binary.BigEndian, &ebr)
+				for {
+					if ebr.Particion_Siguiente == -1{
+						fmt.Println("Es la ultima logica")
+						ebr.Particion_Siguiente = ebr.Inicio_particion +int64(unsafe.Sizeof(ebr)) +ebr2.TamanioTotal
+						f.Seek(ebr.Inicio_particion,0)
+						err = binary.Write(f, binary.BigEndian, ebr)
+						ebr2.Inicio_particion = ebr.Particion_Siguiente
+						ebr2.Particion_Siguiente = -1
+						f.Seek(ebr2.Inicio_particion,0)
+						err = binary.Write(f, binary.BigEndian, ebr2)
+						fmt.Printf("NombreLogica: %s\n",ebr2.NombreParticion)
+						break
+					}else{
+						f.Seek(ebr.Particion_Siguiente,0)
+						err = binary.Read(f, binary.BigEndian, &ebr)
+						fmt.Printf("NombreLogica: %s\n",ebr.NombreParticion)
+					}
+					
+			 		
+				}
+				/*StartLogica += ebr.Inicio_particion + ebr.TamanioTotal
+				ebr2.Inicio_particion = ebr.Particion_Siguiente
+				ebr2.Particion_Siguiente = -1
+				f.Seek(ebr2.Inicio_particion,0)
+				err = binary.Write(f, binary.BigEndian, ebr2)
+				*/
+				return false
+			}
+		}	
+	}
+	if err != nil {
+		fmt.Println("No existe el archivo en la ruta")
+	}
+	
+	return false
+}
+func HayExtendida(path string)(bool){
+	f, err := os.OpenFile(path,os.O_RDONLY,0755)
+	if err != nil {
+		fmt.Println("No existe la ruta"+path)
+		return false
+	}
+	defer f.Close()
+	mbr := MBR{}
+	f.Seek(0,0)
+	err = binary.Read(f, binary.BigEndian, &mbr)
+	Particiones := mbr.Particiones
+	for i:=0;i<4;i++{
+		if  strings.ToLower(BytesToString(Particiones[i].TipoParticion)) == "e"{
+			return true
+		}	
+	}
+	if err != nil {
+		fmt.Println("No existe el archivo en la ruta")
+	}
+	
+	return false
 }
 func ReadFileEBR(path string) (funciona bool){
 	f, err := os.OpenFile(path,os.O_RDONLY,0755)

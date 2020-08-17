@@ -33,7 +33,7 @@ type EBR struct{
         Inicio_particion int64
         Particion_Siguiente int64
         TamanioTotal int64
-        NombreParticion [10]byte
+        NombreParticion [15]byte
 }
 
 type Integers struct {
