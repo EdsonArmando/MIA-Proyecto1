@@ -20,5 +20,7 @@ Fdisk -type->l -unit->k -sizE->2 -path->/home/edson/Escritorio/Proyecto/Proyecto
 pause
 Fdisk -type->l -unit->M -sizE->1 -path->/home/edson/Escritorio/Proyecto/Proyecto1/Vivo/disco2.dsk -name->Particion10
 pause
-Fdisk -type->l -unit->k -sizE->1 -path->/home/edson/Escritorio/Proyecto/Proyecto1/Vivo/disco2.dsk -name->Particion11L
+Fdisk -type->l -unit->k -sizE->1 -path->/home/edson/Escritorio/Proyecto/Proyecto1/Vivo/disco2.dsk -name->Particion11Llol
 #exec -path->/home/edson/Escritorio/Proyecto/Proyecto1/entrada.sh
+pause
+mount -path->/home/edson/Escritorio/Proyecto/Proyecto1/Vivo/disco2.dsk -name->Particion11Llol

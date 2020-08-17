@@ -17,7 +17,7 @@ type Particion struct{
         TipoAjuste [2]byte
         Inicio_particion int64
         TamanioTotal int64
-        NombreParticion [10]byte
+        NombreParticion [15]byte
 }
     //Struct para el MBR
  type  MBR struct{

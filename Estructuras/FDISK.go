@@ -268,12 +268,6 @@ func InicioParticionLogica(path string,ebr2 EBR)(bool){
 					
 			 		
 				}
-				/*StartLogica += ebr.Inicio_particion + ebr.TamanioTotal
-				ebr2.Inicio_particion = ebr.Particion_Siguiente
-				ebr2.Particion_Siguiente = -1
-				f.Seek(ebr2.Inicio_particion,0)
-				err = binary.Write(f, binary.BigEndian, ebr2)
-				*/
 				return false
 			}
 		}	
