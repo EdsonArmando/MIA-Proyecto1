@@ -1,4 +1,6 @@
 #Crear Discos
+mkdisk -size->1 -path->/home/edson/Escritorio/disco3.dsk -unit->MB
+#Crear Discos
 mkdisk -size->21 -path->/home/edson/Escritorio/Proyecto/Proyecto1/Vivo/dico1.dsk -unit->MB
 #Crear Discos
 mkdisk -size->10 -path->/home/edson/Escritorio/Proyecto/Proyecto1/Vivo/disco2.dsk -unit->MB
@@ -26,3 +28,5 @@ pause
 mount -path->/home/edson/Escritorio/Proyecto/Proyecto1/Vivo/disco2.dsk -name->Particion11Llol
 mount -path->/home/edson/Escritorio/Proyecto/Proyecto1/Vivo/disco2.dsk -name->Particion9
 mount -path->/home/edson/Escritorio/Proyecto/Proyecto1/Vivo/dico1.dsk -name->Particion2
+mount -path->/home/edson/Escritorio/Proyecto/Proyecto1/Vivo/dico1.dsk -name->Particion4
+mount -path->/home/edson/Escritorio/Proyecto/Proyecto1/Vivo/dico1.dsk -name->Particion5

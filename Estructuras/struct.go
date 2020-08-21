@@ -38,7 +38,7 @@ type EBR struct{
 //EStruc de las particiones montadas
 type MOUNT struct{
     NombreParticion string
-    Id int64
+    Id string
     Estado [1]byte
     EstadoMKS [1]byte
 }

@@ -12,6 +12,7 @@ import (
     "fmt"
     "container/list"
     "os"
+    "strconv"
     L "./Estructuras"
 ) 
 
@@ -43,7 +44,7 @@ func LlenarListaDisco(ListaDiscos *list.List){
         for j:=0;j<len(disco.Particiones);j++{
             mount :=L.MOUNT{}
             mount.NombreParticion = ""
-            mount.Id = int64(j+1)
+            mount.Id = strconv.Itoa(j+1)
             copy(mount.Estado[:],"0")       
             disco.Particiones[j] = mount
         }

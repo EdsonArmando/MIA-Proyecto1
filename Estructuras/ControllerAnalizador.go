@@ -80,7 +80,7 @@ func RecorrerListaComando(ListaComandos *list.List,ListaDiscos *list.List){
             fmt.Println("Presione una tecla para Continuar")
             fmt.Scanln() 
         case "unmount":
-            ParamValidos = EjecutarComandoUnmount(comandoTemp.Name,comandoTemp.Propiedades)
+            ParamValidos = EjecutarComandoUnmount(comandoTemp.Name,comandoTemp.Propiedades,ListaDiscos)
              if ParamValidos == false{
                 fmt.Println("Parametros Invalidos")
             }
