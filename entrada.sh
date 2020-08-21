@@ -24,3 +24,5 @@ Fdisk -type->l -unit->k -sizE->1 -path->/home/edson/Escritorio/Proyecto/Proyecto
 #exec -path->/home/edson/Escritorio/Proyecto/Proyecto1/entrada.sh
 pause
 mount -path->/home/edson/Escritorio/Proyecto/Proyecto1/Vivo/disco2.dsk -name->Particion11Llol
+mount -path->/home/edson/Escritorio/Proyecto/Proyecto1/Vivo/disco2.dsk -name->Particion9
+mount -path->/home/edson/Escritorio/Proyecto/Proyecto1/Vivo/dico1.dsk -name->Particion2

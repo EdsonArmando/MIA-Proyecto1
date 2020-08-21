@@ -52,7 +52,7 @@ func EjecutarComandoMKDISK(nombreComando string,propiedadesTemp []Propiedad,cont
 	    	comandos +=" bs=" + strconv.Itoa((int(tamanioTotal))*1000) + " count=1"
 	    	mbr1.MbrTamanio=((tamanioTotal)-1)*1000
 	    }else{
-	    	comandos +=" bs=" + strconv.Itoa(int(tamanioTotal)) + "MB"+ " count=1"
+	    	comandos +=" bs=" + strconv.Itoa(int(tamanioTotal)) + "mb"+ " count=1"
 	    	mbr1.MbrTamanio=tamanioTotal*1000000
 	    }
 	    //Inicializando Particiones

@@ -2,7 +2,8 @@ package Estructuras
 import (
 	"fmt"
 	"strings"
-	 "io/ioutil"
+	"io/ioutil"
+	"container/list"
 )
 func Demo(n int) {
     fmt.Println("HI")
@@ -14,7 +15,7 @@ func Check(e error) {
         fmt.Println("Error")
     }
 }
-func EjecutarComandoExec(nombreComando string,propiedadesTemp []Propiedad)(ParamValidos bool){
+func EjecutarComandoExec(nombreComando string,propiedadesTemp []Propiedad,ListaDiscos *list.List)(ParamValidos bool){
 	fmt.Println("----------------- Ejecutando EXEC -----------------")
 	ParamValidos = true
 	if len(propiedadesTemp) >= 1{
@@ -27,7 +28,7 @@ func EjecutarComandoExec(nombreComando string,propiedadesTemp []Propiedad)(Param
 	        	fmt.Println(propiedadTemp.Val)
 	        	dat, err := ioutil.ReadFile(propiedadTemp.Val)
 			    Check(err)
-			    LeerTexto(string(dat))
+			    LeerTexto(string(dat),ListaDiscos)
 	    	default:
 	    		fmt.Println("Error al Ejecutar el Comando")
 	        }

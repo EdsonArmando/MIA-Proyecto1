@@ -5,7 +5,7 @@ import (
 	"fmt"
 )
 //Funcion para leer y reconocer los comandos lleno la lista de comandos
-func LeerTexto(dat string){
+func LeerTexto(dat string,ListaDiscos *list.List){
 	//Leendo la cadena de entrada
 	ListaComandos := list.New()
 	lineaComando := strings.Split(dat, "\n")
@@ -37,10 +37,10 @@ func LeerTexto(dat string){
             ListaComandos.PushBack(c)
         }     
     }
-    RecorrerListaComando(ListaComandos)
+    RecorrerListaComando(ListaComandos,ListaDiscos)
 }
 //Funcion para recorrer la Lista de Comandos
-func RecorrerListaComando(ListaComandos *list.List){
+func RecorrerListaComando(ListaComandos *list.List,ListaDiscos *list.List){
     var ParamValidos bool = true
     var cont = 1
 	 for element := ListaComandos.Front(); element != nil; element = element.Next() {
@@ -65,10 +65,15 @@ func RecorrerListaComando(ListaComandos *list.List){
                 fmt.Println("Parametros Invalidos")
             }
         case "mount":
-            ParamValidos = EjecutarComandoMount(comandoTemp.Name,comandoTemp.Propiedades)
-             if ParamValidos == false{
-                fmt.Println("Parametros Invalidos")
+            if len(comandoTemp.Propiedades) !=0{
+                 ParamValidos = EjecutarComandoMount(comandoTemp.Name,comandoTemp.Propiedades,ListaDiscos)
+                 if ParamValidos == false{
+                    fmt.Println("Parametros Invalidos")
+                }
+            }else{
+                EjecutarReporteMount(ListaDiscos)
             }
+           
         case "exit":
             fmt.Println("Finalizo la Ejecucion")
         case "pause":
@@ -80,7 +85,7 @@ func RecorrerListaComando(ListaComandos *list.List){
                 fmt.Println("Parametros Invalidos")
             }
         case "exec":
-            ParamValidos = EjecutarComandoExec(comandoTemp.Name,comandoTemp.Propiedades)
+            ParamValidos = EjecutarComandoExec(comandoTemp.Name,comandoTemp.Propiedades,ListaDiscos)
              if ParamValidos == false{
                 fmt.Println("Parametros Invalidos")
             }
@@ -89,4 +94,3 @@ func RecorrerListaComando(ListaComandos *list.List){
         }
     }
 }
-

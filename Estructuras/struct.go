@@ -35,7 +35,23 @@ type EBR struct{
         TamanioTotal int64
         NombreParticion [15]byte
 }
+//EStruc de las particiones montadas
+type MOUNT struct{
+    NombreParticion string
+    Id int64
+    Estado [1]byte
+    EstadoMKS [1]byte
+}
 
+//Estruct Disco 
+type DISCO struct{
+    NombreDisco string
+    Path string
+    Id [1]byte 
+    Estado [1]byte 
+    Particiones [100]MOUNT
+}
+//57.51
 type Integers struct {
 	I1 uint16
 	I2 int32
