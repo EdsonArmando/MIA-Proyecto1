@@ -30,3 +30,8 @@ mount -path->/home/edson/Escritorio/Proyecto/Proyecto1/Vivo/disco2.dsk -name->Pa
 mount -path->/home/edson/Escritorio/Proyecto/Proyecto1/Vivo/dico1.dsk -name->Particion2
 mount -path->/home/edson/Escritorio/Proyecto/Proyecto1/Vivo/dico1.dsk -name->Particion4
 mount -path->/home/edson/Escritorio/Proyecto/Proyecto1/Vivo/dico1.dsk -name->Particion5
+#Eliminar Particiones
+pause
+fdisk -name->Particion7 -delete->full -path->/home/edson/Escritorio/Proyecto/Proyecto1/Vivo/disco2.dsk
+pause
+fdisk -name->Particion9 -delete->full -path->/home/edson/Escritorio/Proyecto/Proyecto1/Vivo/disco2.dsk

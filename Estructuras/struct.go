@@ -59,3 +59,6 @@ type Integers struct {
 	DOS byte
 }
 
+func BytesNombreParticion(data [15]byte) string {
+    return string(data[:])
+}

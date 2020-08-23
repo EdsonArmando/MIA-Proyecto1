@@ -56,6 +56,10 @@ func EjecutarComandoFDISK(nombreComando string,propiedadesTemp []Propiedad)(Para
 	    	TamanioParticion,_  := strconv.ParseInt(propiedades[0], 10, 64)
 	    	TamanioTotalParticion = TamanioParticion*1000
 	    }
+	    if propiedades[5] != ""{
+	    	EliminarParticion(propiedades[3],propiedades[6],propiedades[5])
+	    	return
+	    }
 	    //Obtener el MBR
 	    switch strings.ToLower(propiedades [4]){
 	    case "p":
@@ -185,7 +189,6 @@ func EjecutarComandoFDISK(nombreComando string,propiedadesTemp []Propiedad)(Para
 		    err = binary.Write(f, binary.BigEndian, ebr)
 		    //fmt.Println("******************EBR de la extendida")
 	    	fmt.Println("Extendida","Leendo EBR")
-	    	ReadFileEBR(propiedades [3])
 	    default:
 	    	fmt.Println("Ocurrio un error")
 	    }
@@ -212,6 +215,91 @@ func EscribirParticionLogica(path string, ebr EBR, inicioParticionLogica int64,i
 		fmt.Println("No existe el archivo en la ruta")
 	}*/
 	return true
+}
+func EliminarParticion(path string,name string,typeDelete string)(bool){
+    var name2 [15]byte
+    Encontrada := false
+    copy(name2[:], name)
+	f, err := os.OpenFile(path,os.O_RDWR,0755)
+	if err != nil {
+		fmt.Println("No existe la ruta"+path)
+		return false
+	}
+	defer f.Close()
+	mbr := MBR{}
+	//Posiciono al inicio el Puntero
+	f.Seek(0,0)
+	//Leo el mbr
+	err = binary.Read(f, binary.BigEndian, &mbr)
+	Particiones := mbr.Particiones
+	for i:=0;i<4;i++{
+		if  strings.ToLower(BytesToString(Particiones[i].TipoParticion)) == "e" && BytesNombreParticion(Particiones[i].NombreParticion) == BytesNombreParticion(name2){
+			fmt.Println("Es una Extendida")
+			Encontrada = true
+		}else if strings.ToLower(BytesToString(Particiones[i].TipoParticion)) == "p" && BytesNombreParticion(Particiones[i].NombreParticion) == BytesNombreParticion(name2){
+			var partTemp = Particion{}
+			copy(partTemp.Status_particion[:],"0") 
+	        copy(partTemp.TipoParticion[:],"")
+	        copy(partTemp.TipoAjuste[:],"")
+	        partTemp.Inicio_particion=0
+	        partTemp.TamanioTotal=0
+	        copy(partTemp.NombreParticion[:],"")
+	        Particiones[i]=partTemp
+	        mbr.Particiones = Particiones
+	        f.Seek(0,0)
+	        err = binary.Write(f, binary.BigEndian, &mbr)
+			fmt.Println("Particon Primaria Eliminada")
+			ReadFile(path)
+			Encontrada = true
+		}
+	}
+	if Encontrada == false {
+		for i:=0;i<4;i++{
+			if  strings.ToLower(BytesToString(Particiones[i].TipoParticion)) == "e"{
+				var InicioExtendida int64=Particiones[i].Inicio_particion
+				f.Seek(InicioExtendida,0)
+				ebrAnterior := EBR{}
+				ebr:=EBR{}
+				ebrAnterior = ebr
+				err = binary.Read(f, binary.BigEndian, &ebr)
+				if ebr.Particion_Siguiente == -1{
+					fmt.Println("No Hay particiones Logicas")
+				}else{
+					f.Seek(InicioExtendida,0)
+					err = binary.Read(f, binary.BigEndian, &ebr)
+					for {
+						if BytesNombreParticion(ebr.NombreParticion)==BytesNombreParticion(name2){
+							fmt.Println("Particion Logica Encontrada")
+							//ReadFileEBR(path)
+							if strings.ToLower(typeDelete) == "fast"{
+								ebrAnterior.Particion_Siguiente = ebr.Particion_Siguiente
+								f.Seek(ebrAnterior.Inicio_particion,0)
+								err = binary.Write(f, binary.BigEndian, ebrAnterior)
+
+							}else if strings.ToLower(typeDelete) == "full"{
+								ebrAnterior.Particion_Siguiente = ebr.Particion_Siguiente
+								f.Seek(ebrAnterior.Inicio_particion,0)
+								err = binary.Write(f, binary.BigEndian, ebrAnterior)
+								//ReadFileEBR(path)
+							}
+							Encontrada = true
+						}
+						if ebr.Particion_Siguiente == -1{
+							break
+						}else{
+							f.Seek(ebr.Particion_Siguiente,0)
+							ebrAnterior = ebr
+							err = binary.Read(f, binary.BigEndian, &ebr)
+						}
+					}
+				}
+			}
+		}
+	}
+	if Encontrada == false{
+		fmt.Println("Error No se encontro la particon")
+	}
+	return false
 }
 func InicioParticionLogica(path string,ebr2 EBR)(bool){
 	f, err := os.OpenFile(path,os.O_RDWR,0755)
@@ -301,21 +389,44 @@ func HayExtendida(path string)(bool){
 	return false
 }
 func ReadFileEBR(path string) (funciona bool){
+	fmt.Println("****************Leendo EL EBR")
 	f, err := os.OpenFile(path,os.O_RDONLY,0755)
 	if err != nil {
 		fmt.Println("No existe la ruta"+path)
 		return false
 	}
 	defer f.Close()
-	ebr := EBR{}
-	f.Seek(72200,0)
-	err = binary.Read(f, binary.BigEndian, &ebr)
+	mbr := MBR{}
+	f.Seek(0,0)
+	err = binary.Read(f, binary.BigEndian, &mbr)
+	Particiones := mbr.Particiones
 	if err != nil {
 		fmt.Println("No existe el archivo en la ruta")
 	}
-	fmt.Println("Tamanio del EBR")
-	fmt.Println(ebr)	
-	fmt.Printf("NombreExtendida: %s\n",ebr.NombreParticion)
+	for i:=0;i<4;i++{
+			if  strings.ToLower(BytesToString(Particiones[i].TipoParticion)) == "e"{
+				var InicioExtendida int64=Particiones[i].Inicio_particion
+				f.Seek(InicioExtendida,0)
+				ebr:=EBR{}
+				err = binary.Read(f, binary.BigEndian, &ebr)
+				if ebr.Particion_Siguiente == -1{
+					fmt.Println("No Hay particiones Logicas")
+				}else{
+					f.Seek(InicioExtendida,0)
+					err = binary.Read(f, binary.BigEndian, &ebr)
+					for {
+						if ebr.Particion_Siguiente == -1{
+							break
+						}else{
+							f.Seek(ebr.Particion_Siguiente,0)
+							err = binary.Read(f, binary.BigEndian, &ebr)
+						}
+						fmt.Printf("NombreLogica: %s\n",ebr.NombreParticion)
+						
+					}
+				}
+			}
+		}
 	return true
 }
 func ReadFile(path string) (funciona bool){
@@ -332,7 +443,7 @@ func ReadFile(path string) (funciona bool){
 		fmt.Println("No existe el archivo en la ruta")
 	}
 	fmt.Println("Tamanio del MBR")
-	fmt.Println(mbr)	
+	fmt.Println(mbr.Particiones)	
 	fmt.Printf("Fecha: %s\n",mbr.MbrFechaCreacion)
 	return true
 }
