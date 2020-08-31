@@ -35,3 +35,7 @@ pause
 fdisk -name->Particion7 -delete->full -path->/home/edson/Escritorio/Proyecto/Proyecto1/Vivo/disco2.dsk
 pause
 fdisk -name->Particion9 -delete->full -path->/home/edson/Escritorio/Proyecto/Proyecto1/Vivo/disco2.dsk
+#MKFS
+mount
+pause
+mkfs -id->vdb1 -type->full

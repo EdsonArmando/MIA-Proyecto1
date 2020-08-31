@@ -50,6 +50,24 @@ func EjecutarReporteMount(ListaDiscos *list.List){
         }
     }
 }
+func IdValido(id string,ListaDiscos *list.List)(bool){
+	esta:=false
+	for element := ListaDiscos.Front(); element != nil; element = element.Next() {
+        var disco  DISCO
+        disco = element.Value.(DISCO)
+        if disco.NombreDisco != ""{
+            for i:=0;i<len(disco.Particiones);i++{
+                var mountTemp = disco.Particiones[i]
+                if mountTemp.NombreParticion != ""{
+                	if mountTemp.Id == id{
+                		return true
+                	}
+                }
+            }
+        }
+    }
+    return esta
+}
 func EjecutarComando(path string,NombreParticion [15]byte,ListaDiscos *list.List)(bool){
 	var encontrada = false
 	lineaComando := strings.Split(path, "/")

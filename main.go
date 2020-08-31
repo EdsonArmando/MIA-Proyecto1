@@ -30,7 +30,10 @@ func main() {
     	fmt.Println(">>")
     	scanner.Scan()
     	comando = scanner.Text()
-    	L.LeerTexto(comando,ListaDiscos)
+        if comando != ""{
+            L.LeerTexto(comando,ListaDiscos)    
+        }
+    	
     }
 } 
 func LlenarListaDisco(ListaDiscos *list.List){
