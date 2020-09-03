@@ -4,6 +4,7 @@ import (
 	"container/list"
 	"strings"
 	"os"
+	"time"
 	"encoding/binary"
 	"unsafe"
 )
@@ -102,15 +103,15 @@ func ExecuteMKFS(id string,ListaDiscos *list.List)(bool){
 	fmt.Println("CantidadAVD",cantidadAVD,"CantidadDD",cantidadDD,"CantidadInodos",cantidadInodos,"CantidadBloques",cantidadBloques,"CantidadBitacoras",Bitacoras)
 	//Inicializando SuperBloque
 	copy(superBloque.Sb_nombre_hd[:],nombreDisco)
-	superBloque.Sb_arbol_virtual_count = cantidadAVD
-	superBloque.Sb_detalle_directorio_count = cantidadDD
-	superBloque.Sb_inodos_count = cantidadInodos
-	superBloque.Sb_bloques_count = cantidadBloques
+	superBloque.Sb_arbol_virtual_count = 0
+	superBloque.Sb_detalle_directorio_count = 0
+	superBloque.Sb_inodos_count = 0
+	superBloque.Sb_bloques_count = 0
 	//
-	superBloque.Sb_arbol_virtual_free  = 0
-    superBloque.Sb_detalle_directorio_free = 0
-    superBloque.Sb_inodos_free = cantidadAVD
-    superBloque.Sb_bloques_free = 0
+	superBloque.Sb_arbol_virtual_free  = cantidadAVD
+    superBloque.Sb_detalle_directorio_free = cantidadDD
+    superBloque.Sb_inodos_free = cantidadInodos
+    superBloque.Sb_bloques_free = cantidadBloques
     copy(superBloque.Sb_date_creacion[:],"")
     copy(superBloque.Sb_date_ultimo_montaje[:],"")
     superBloque.Sb_montajes_count = 0
@@ -206,12 +207,13 @@ func ExecuteMKFS(id string,ListaDiscos *list.List)(bool){
     err = binary.Read(f, binary.BigEndian, &superBloque)
     fmt.Println("----------")
     fmt.Println(superBloque)
-    fmt.Println("----------")
-
+    fmt.Println("----------")*/
+    //Crear Raiz  -----> /  y  archivo con usuarios
+    CrearRaiz(pathDisco,InicioParticion)
 	fmt.Println("NO estructuras:",noEstructuras);
 	fmt.Println("Particion a formatear",nombreParticion,NoParticion)
 	fmt.Println(sizeParticion)	
-	fmt.Printf("Fecha: %s\n",mbr.MbrFechaCreacion)*/
+	fmt.Printf("Fecha: %s\n",mbr.MbrFechaCreacion)
 	return false
 }
 
@@ -259,7 +261,7 @@ func ReturnMBR(path string,nombreParticion string) (MBR,int64,int64){
 							err = binary.Read(f, binary.BigEndian, &ebr)
 						}
 						if BytesNombreParticion(ebr.NombreParticion)==BytesNombreParticion(nombre2){
-							fmt.Println("Loica Encontrada")
+							fmt.Println("Logica Encontrada")
 							return mbr,ebr.TamanioTotal,ebr.Inicio_particion
 						}
 						
@@ -268,4 +270,84 @@ func ReturnMBR(path string,nombreParticion string) (MBR,int64,int64){
 			}
 		}
 	return mbr,0,0
+}
+
+func CrearRaiz(pathDisco string,InicioParticion int64)(bool){
+	dt := time.Now()
+	f, err := os.OpenFile(pathDisco,os.O_RDWR,0755)
+	if err != nil {
+		fmt.Println("No existe la ruta"+pathDisco)
+		return false
+	}
+	defer f.Close()
+	f.Seek(InicioParticion,0)
+	sb := SB{}
+	err = binary.Read(f, binary.BigEndian, &sb)
+	//Escribir 1 en bitmapa avd y escribir avd
+	f.Seek(sb.Sb_ap_bitmap_arbol_directorio,0)
+	var otro int8 = 0
+	otro = 1
+	err = binary.Write(f, binary.BigEndian, &otro)
+	avd := AVD{}
+	copy(avd.Avd_fecha_creacion[:], dt.String())
+	copy(avd.Avd_nomre_directotrio[:],"/")
+	for j:=0;j<6;j++{
+		avd.Avd_ap_array_subdirectoios[j]=-1
+	}
+	avd.Avd_ap_detalle_directorio = 0
+	avd.Avd_ap_arbol_virtual_directorio = -1
+	copy(avd.Avd_proper[:],"root")
+	f.Seek(sb.Sb_ap_arbol_directorio,0)
+	err = binary.Write(f, binary.BigEndian, &avd)
+	//Escribir 1 en bitmap detalleDirectorio y escribir detalleDirectorio
+	f.Seek(sb.Sb_ap_bitmap_detalle_directorio,0)
+	otro = 1
+	err = binary.Write(f, binary.BigEndian, &otro)
+	otro=0
+	detalleDirectorio :=DD{}
+	arregloDD :=ArregloDD{}
+	copy(arregloDD.Dd_file_nombre[:],"users.txt")
+	copy(arregloDD.Dd_file_date_creacion[:],dt.String())
+	copy(arregloDD.Dd_file_date_modificacion[:],dt.String())
+	arregloDD.Dd_file_ap_inodo = 0
+	detalleDirectorio.Dd_array_files[0] = arregloDD
+	f.Seek(sb.Sb_ap_detalle_directorio,0)
+	err = binary.Write(f, binary.BigEndian, &detalleDirectorio)
+	//Escribir 1 en bitmap tablaInodo y escribir Inodo
+	f.Seek(sb.Sb_ap_bitmap_tabla_inodo,0)
+	otro = 1
+	err = binary.Write(f, binary.BigEndian, &otro)
+	otro=0
+	inodo := Inodo{}
+	inodo.I_count_inodo = sb.Sb_inodos_count
+	inodo.I_size_archivo = 10
+	inodo.I_count_bloques_asignados = 1
+	inodo.I_array_bloques[0] = 0 
+	inodo.I_ao_indirecto = -1
+	inodo.I_id_proper = 201701029
+	f.Seek(sb.Sb_ap_tabla_inodo,0)
+	err = binary.Write(f, binary.BigEndian, &inodo)
+	//Escribir 1 en bitmap bloqueDatos y escribir el bloque datos
+	f.Seek(sb.Sb_ap_bitmap_bloques,0)
+	otro = 1
+	err = binary.Write(f, binary.BigEndian, &otro)
+	otro=0
+	bloque := Bloque{}
+	copy(bloque.Db_data[:],"1,G,root \n 1,U,root,root,201701029\n")
+	f.Seek(sb.Sb_ap_bloques,0)
+	err = binary.Write(f, binary.BigEndian, &bloque)
+	//Actualizar SB
+	sb.Sb_arbol_virtual_count = sb.Sb_arbol_virtual_count + 1
+	sb.Sb_detalle_directorio_count = sb.Sb_arbol_virtual_count + 1
+	sb.Sb_inodos_count = sb.Sb_arbol_virtual_count + 1
+	sb.Sb_bloques_count = sb.Sb_arbol_virtual_count + 1
+
+	sb.Sb_arbol_virtual_free  = sb.Sb_arbol_virtual_free - 1
+    sb.Sb_detalle_directorio_free = sb.Sb_detalle_directorio_free - 1
+    sb.Sb_inodos_free = sb.Sb_inodos_free - 1
+    sb.Sb_bloques_free = sb.Sb_bloques_free - 1
+
+	f.Seek(InicioParticion,0)
+	err = binary.Write(f, binary.BigEndian, &sb)
+	return false
 }

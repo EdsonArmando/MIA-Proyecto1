@@ -115,7 +115,6 @@ type ArregloDD struct{
 type DD struct{
     Dd_array_files [5]ArregloDD
     Dd_ap_detalle_directorio int64
-
 }
 
 

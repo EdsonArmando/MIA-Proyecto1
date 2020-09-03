@@ -94,6 +94,11 @@ func RecorrerListaComando(ListaComandos *list.List,ListaDiscos *list.List){
              if ParamValidos == false{
                 fmt.Println("Parametros Invalidos")
             }
+        case "login":
+        ParamValidos = EjecutarComandoLogin(comandoTemp.Name,comandoTemp.Propiedades,ListaDiscos)
+         if ParamValidos == false{
+            fmt.Println("Parametros Invalidos")
+        }
         default:
             fmt.Println("Error al Ejecutar el Comando")
         }
