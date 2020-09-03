@@ -4,6 +4,8 @@ mkdisk -size->1 -path->/home/edson/Escritorio/disco3.dsk -unit->MB
 mkdisk -size->21 -path->/home/edson/Escritorio/Proyecto/Proyecto1/Vivo/dico1.dsk -unit->MB
 #Crear Discos
 mkdisk -size->10 -path->/home/edson/Escritorio/Proyecto/Proyecto1/Vivo/disco2.dsk -unit->MB
+#Crear Disco
+mkdisk -size->150 -path->/home/edson/discoPrueba.dsk -unit->MB
 #Particones
 fdisk -type->P -unit->m -size->8 -fit->BF -path->/home/edson/Escritorio/Proyecto/Proyecto1/Vivo/dico1.dsk -name->Particion2
 #Particiones

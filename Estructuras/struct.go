@@ -91,7 +91,7 @@ type SB struct{
     Sb_first_free_bit_detalle_directoriio int64
     Sb_dirst_free_bit_tabla_inodo int64
     Sb_first_free_bit_bloques int64
-    sb_magic_num int64
+    Sb_magic_num int64
 
 }
 
@@ -99,7 +99,7 @@ type SB struct{
 type AVD struct{
     Avd_fecha_creacion [19]byte
     Avd_nomre_directotrio [15]byte
-    Avd_ap_array_subdirectoios [4]byte
+    Avd_ap_array_subdirectoios [6]int64
     Avd_ap_detalle_directorio int64
     Avd_ap_arbol_virtual_directorio int64
     Avd_proper [10]byte
