@@ -1,0 +1,113 @@
+digraph grafica{
+rankdir=TB;
+node [shape = record, style=filled, fillcolor=seashell2];
+nodo9 [ shape=record, label ="{/|{<f0> 1|<f1> 12|<f2> 13|<f3> -1|<f4> -1|<f5> -1|<f6> 0|<f7> -1}}"];
+nodo10 [ shape=record, label ="{/home|{<f0> 2|<f1> 3|<f2> 4|<f3> 5|<f4> 6|<f5> 7|<f6> 1|<f7> 8}}"];
+nodo22 [ shape=record, label ="{/bin|{<f0> -1|<f1> -1|<f2> -1|<f3> -1|<f4> -1|<f5> -1|<f6> 13|<f7> -1}}"];
+nodo21 [ shape=record, label ="{/user|{<f0> -1|<f1> -1|<f2> -1|<f3> -1|<f4> -1|<f5> -1|<f6> 12|<f7> -1}}"];
+//
+nodo18 [ shape=record, label ="{/carpeta1|{<f0> -1|<f1> -1|<f2> -1|<f3> -1|<f4> -1|<f5> -1|<f6> 2|<f7> -1}}"];
+nodo11 [ shape=record, label ="{/carpeta2|{<f0> -1|<f1> -1|<f2> -1|<f3> -1|<f4> -1|<f5> -1|<f6> 3|<f7> -1}}"];
+nodo12 [ shape=record, label ="{/carpeta3|{<f0> -1|<f1> -1|<f2> -1|<f3> -1|<f4> -1|<f5> -1|<f6> 4|<f7> -1}}"];
+nodo13 [ shape=record, label ="{/carpeta4|{<f0> 11|<f1> -1|<f2> -1|<f3> -1|<f4> -1|<f5> -1|<f6> 5|<f7> -1}}"];
+nodo14 [ shape=record, label ="{/carpeta5|{<f0> -1|<f1> -1|<f2> -1|<f3> -1|<f4> -1|<f5> -1|<f6> 6|<f7> -1}}"];
+nodo15 [ shape=record, label ="{/carpeta6|{<f0> -1|<f1> -1|<f2> -1|<f3> -1|<f4> -1|<f5> -1|<f6> 7|<f7> -1}}"];
+nodo16 [ shape=record, label ="{/carpeta7|{<f0> -1|<f1> -1|<f2> -1|<f3> -1|<f4> -1|<f5> -1|<f6> 9|<f7> -1}}"];
+nodo17 [ shape=record, label ="{/carpeta8|{<f0> -1|<f1> -1|<f2> -1|<f3> -1|<f4> -1|<f5> -1|<f6> 10|<f7> -1}}"];
+nodo19 [ shape=record, label ="{/home|{<f0> 9|<f1> 10|<f2> -1|<f3> -1|<f4> -1|<f5> -1|<f6> 8|<f7> -1}}"];
+nodo20 [ shape=record, label ="{/carpeta4.1|{<f0> -1|<f1> -1|<f2> -1|<f3> -1|<f4> -1|<f5> -1|<f6> 11|<f7> -1}}"];
+//Relaciones
+nodo9:f0 -> nodo10
+nodo10:f0 -> nodo18
+nodo10:f1 -> nodo11
+nodo10:f2 -> nodo12
+nodo10:f3 -> nodo13
+nodo10:f4 -> nodo14
+nodo10:f5 -> nodo15
+nodo10:f7 -> nodo19
+nodo19:f0 -> nodo16
+nodo19:f1 -> nodo17
+nodo13:f0 -> nodo20
+nodo9:f1 -> nodo21
+nodo9:f2 -> nodo22
+
+//Inodos
+node_A [shape=record, label="{Inodo File1.txt|{6 | <f2> }|{7 | <f3> }|{8 | <f4> }|{-1 | <f5> }|{*1 | <f1> }}"];
+node_C [shape=record, label="{Inodo File2.txt|{9 | <f2> }|{-1 | <f3> }|{-1 | <f4> }|{-1 | <f5> }|{*1 | <f1> }}"];
+node_1 [shape=record, label="{Inodo File3.txt|{10 | <f2> }|{-1 | <f3> }|{-1 | <f4> }|{-1 | <f5> }|{*1 | <f1> }}"];
+node_2 [shape=record, label="{Inodo File4.txt|{11 | <f2> }|{-1 | <f3> }|{-1 | <f4> }|{-1 | <f5> }|{*1 | <f1> }}"];
+node_3 [shape=record, label="{Inodo File5.txt|{12 | <f2> }|{-1 | <f3> }|{-1 | <f4> }|{-1 | <f5> }|{*1 | <f1> }}"];
+node_4 [shape=record, label="{Inodo File6.txt|{13 | <f2> }|{-1 | <f3> }|{-1 | <f4> }|{-1 | <f5> }|{*1 | <f1> }}"];
+node_5 [shape=record, label="{Inodo File7.txt|{14 | <f2> }|{-1 | <f3> }|{-1 | <f4> }|{-1 | <f5> }|{*1 | <f1> }}"];
+node_6 [shape=record, label="{Inodo hola.txt|{0 |  <f2> }|{1 |  <f3> }|{2 |  <f4> }|{3 |  <f5> }|{*1 | <f1> }}"];
+node_7 [shape=record, label="{Inodo hola.txt|{4 | <f2> }|{5 | <f3> }|{-1 | <f4> }|{-1 | <f5> }|{*1 | <f1> }}"];
+node_8 [shape=record, label="{Inodo archivo.txt|{15 | <f2> }|{16 | <f3> }|{-1 | <f4> }|{-1 | <f5> }|{*1 | <f1> }}"];
+
+//Relaciones bloque 
+data1 [shape=record, label="{data| <f1> }}"];
+data2 [shape=record, label="{data| <f1> }}"];
+data3 [shape=record, label="{data| <f1> }}"];
+data4 [shape=record, label="{data| <f1> }}"];
+data5 [shape=record, label="{data| <f1> }}"];
+data6 [shape=record, label="{data| <f1> }}"];
+//Bllque datos file1.txt
+data7 [shape=record, label="{data| <f1> }}"];
+data8 [shape=record, label="{data| <f1> }}"];
+data9 [shape=record, label="{data| <f1> }}"];
+
+
+data10 [shape=record, label="{data| <f1> }}"];
+data11 [shape=record, label="{data| <f1> }}"];
+data12 [shape=record, label="{data| <f1> }}"];
+data13 [shape=record, label="{data| <f1> }}"];
+data14 [shape=record, label="{data| <f1> }}"];
+data15 [shape=record, label="{data| <f1> }}"];
+
+data16 [shape=record, label="{data| <f1> }}"];
+data17 [shape=record, label="{data| <f1> }}"];
+
+node_6:f2 -> data1
+node_6:f3 -> data2
+node_6:f4 -> data3
+node_6:f5 -> data4
+node_7:f2 -> data5
+node_7:f3 -> data6
+
+node_A:f2 -> data7
+node_A:f3 -> data8
+node_A:f4 -> data9
+
+node_C:f2 -> data10
+node_1:f2 -> data11
+node_2:f2 -> data12
+node_3:f2 -> data13
+node_4:f2 -> data14
+node_5:f2 -> data15
+
+node_8:f2 -> data16
+node_8:f3 -> data17
+//Detalle Directorio
+nodo20:f6 -> node_B
+node_B [shape=record, label="{DD Carpeta4.1|{<f0> hola.txt| <f1> 1}|{-1 | }|{-1 | }|{-1 | }|{-1 | }|{*1 | <f2> }}"];
+node_B:f1 -> node_6
+node_6:f1 -> node_7
+node_DDBin:f1 -> node_8
+
+node_ddUser [shape=record, label="{DD user|{<f0> file1.txt| <f1> 2}|{<f2> file2.txt| <f3> 3}|{<f4> file3.txt| <f5> 4}|{<f6> file4.txt| <f7> 5}|{<f8> file5.txt| <f9> 6}|{*1 | <f10> }}"];
+node_ddUser2 [shape=record, label="{DD user|{<f0> file6.txt| <f1> 7}|{<f2> file7.txt| <f3> 8}|{<f4> -1| <f5> 0}|{<f6> -1| <f7> 0}|{<f8> -1| <f9> 0}|{*1 | <f10> }}"];
+
+nodo21:f6 -> node_ddUser
+node_ddUser:f10 -> node_ddUser2
+
+node_DDBin [shape=record, label="{DD Bin|{<f0> archivo.txt| <f1> 9}|{-1 | }|{-1 | }|{-1 | }|{-1 | }|{*1 | <f2> }}"];
+nodo22:f6 -> node_DDBin
+//Apuntar Inodos
+node_ddUser:f1 -> node_A
+node_ddUser:f3 -> node_C
+node_ddUser:f5 -> node_1
+node_ddUser:f7 -> node_2
+node_ddUser:f9 -> node_3
+node_ddUser2:f1 -> node_4
+node_ddUser2:f3 -> node_5
+
+}

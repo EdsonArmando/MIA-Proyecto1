@@ -1,43 +1,29 @@
-#Crear Discos
-mkdisk -size->1 -path->/home/edson/Escritorio/disco3.dsk -unit->MB
-#Crear Discos
-mkdisk -size->21 -path->/home/edson/Escritorio/Proyecto/Proyecto1/Vivo/dico1.dsk -unit->MB
-#Crear Discos
-mkdisk -size->10 -path->/home/edson/Escritorio/Proyecto/Proyecto1/Vivo/disco2.dsk -unit->MB
-#Crear Disco
-mkdisk -size->150 -path->/home/edson/discoPrueba.dsk -unit->MB
+mkdisk -size->30 -path->/home/edson/discoPrueba.dsk -unit->MB
 #Particones
-fdisk -type->P -unit->m -size->8 -fit->BF -path->/home/edson/Escritorio/Proyecto/Proyecto1/Vivo/dico1.dsk -name->Particion2
-#Particiones
-pause
-fdisk -type->P -unit->m -size->10 -fit->BF -path->/home/edson/Escritorio/Proyecto/Proyecto1/Vivo/dico1.dsk -name->Particion3
-pause
-fdisk -type->P -unit->m -size->1 -fit->BF -path->/home/edson/Escritorio/Proyecto/Proyecto1/Vivo/dico1.dsk -name->Particion4
-pause
-fdisk -type->P -unit->m -size->1 -fit->BF -path->/home/edson/Escritorio/Proyecto/Proyecto1/Vivo/dico1.dsk -name->Particion5
-pause
-Fdisk -type->P -sizE->72 -path->/home/edson/Escritorio/Proyecto/Proyecto1/Vivo/disco2.dsk -name->Particion1
-pause
-Fdisk -type->E -unit->k -sizE->10 -path->/home/edson/Escritorio/Proyecto/Proyecto1/Vivo/disco2.dsk -name->Particion7
-pause
-Fdisk -type->l -unit->k -sizE->2 -path->/home/edson/Escritorio/Proyecto/Proyecto1/Vivo/disco2.dsk -name->Particion9
-pause
-Fdisk -type->l -unit->M -sizE->1 -path->/home/edson/Escritorio/Proyecto/Proyecto1/Vivo/disco2.dsk -name->Particion10
-pause
-Fdisk -type->l -unit->k -sizE->1 -path->/home/edson/Escritorio/Proyecto/Proyecto1/Vivo/disco2.dsk -name->Particion11Llol
+fdisk -type->P -unit->m -size->15 -fit->BF -path->/home/edson/discoPrueba.dsk -name->ParticionX
 #exec -path->/home/edson/Escritorio/Proyecto/Proyecto1/entrada.sh
-pause
-mount -path->/home/edson/Escritorio/Proyecto/Proyecto1/Vivo/disco2.dsk -name->Particion11Llol
-mount -path->/home/edson/Escritorio/Proyecto/Proyecto1/Vivo/disco2.dsk -name->Particion9
-mount -path->/home/edson/Escritorio/Proyecto/Proyecto1/Vivo/dico1.dsk -name->Particion2
-mount -path->/home/edson/Escritorio/Proyecto/Proyecto1/Vivo/dico1.dsk -name->Particion4
-mount -path->/home/edson/Escritorio/Proyecto/Proyecto1/Vivo/dico1.dsk -name->Particion5
-#Eliminar Particiones
-pause
-fdisk -name->Particion7 -delete->full -path->/home/edson/Escritorio/Proyecto/Proyecto1/Vivo/disco2.dsk
-pause
-fdisk -name->Particion9 -delete->full -path->/home/edson/Escritorio/Proyecto/Proyecto1/Vivo/disco2.dsk
-#MKFS
-mount
-pause
-mkfs -id->vdb1 -type->full
+mount -path->/home/edson/discoPrueba.dsk -name->ParticionX
+mkfs -id->vda1 -type->full
+#login
+login -usr->root -pwd->201701029 -id->vda1
+mkdir -p -id->vda1 -path->/bin
+mkdir -p -id->vda1 -path->/usr
+mkdir -p -id->vda1 -path->/hola
+mkdir -p -id->vda1 -path->/etc
+mkdir -p -id->vda1 -path->/home
+mkdir -p -id->vda1 -path->/home/user/docs
+mkdir -p -id->vda1 -path->/home/user1
+mkdir -p -id->vda1 -path->/home/user2
+mkdir -p -id->vda1 -path->/home/user3
+mkdir -p -id->vda1 -path->/home/user4
+mkdir -p -id->vda1 -path->/home/user5
+mkdir -p -id->vda1 -path->/home/user6
+mkdir -p -id->vda1 -path->/home/user7
+mkdir -p -id->vda1 -path->/home/user8
+mkdir -p -id->vda1 -path->/home/user9
+mkdir -p -id->vda1 -path->/home/user10
+mkdir -p -id->vda1 -path->/home/user11
+mkdir -p -id->vda1 -path->/home/user12
+mkdir -p -id->vda1 -path->/home/user13
+mkdir -p -id->vda1 -path->/home/user14
+mkdir -p -id->vda1 -path->/home/user15

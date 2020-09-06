@@ -4,6 +4,7 @@ import (
 	"strings"
 	"fmt"
 )
+var global string = ""
 //Funcion para leer y reconocer los comandos lleno la lista de comandos
 func LeerTexto(dat string,ListaDiscos *list.List){
 	//Leendo la cadena de entrada
@@ -27,10 +28,19 @@ func LeerTexto(dat string,ListaDiscos *list.List){
             for i:=1; i < len(propiedades); i++{
                 if propiedades[i]==""{
                     continue
+                }else if propiedades[i]=="-p"{
+                    propiedadesTemp[i-1]= Propiedad{Name:"-p",
+                    Val:"-p"}
+                }else{
+                    if strings.Contains(propiedades[i], "->"){
+                        valor_propiedad_Comando:= strings.Split(propiedades[i], "->")
+                        propiedadesTemp[i-1]= Propiedad{Name:valor_propiedad_Comando[0],
+                        Val:valor_propiedad_Comando[1]}
+                    }else{
+                        propiedadesTemp[i-1]= Propiedad{Name:"-sigue",
+                        Val:propiedades[i]}
+                    }
                 }
-                valor_propiedad_Comando := strings.Split(propiedades[i], "->")
-                propiedadesTemp[i-1]= Propiedad{Name:valor_propiedad_Comando[0],
-                Val:valor_propiedad_Comando[1]}
             }
             c.Propiedades = propiedadesTemp
             //Agregando el comando a la lista comandos
@@ -89,16 +99,33 @@ func RecorrerListaComando(ListaComandos *list.List,ListaDiscos *list.List){
              if ParamValidos == false{
                 fmt.Println("Parametros Invalidos")
             }
+        case "mkdir":
+            ParamValidos = EjecutarComandoMKDIR(comandoTemp.Name,comandoTemp.Propiedades,ListaDiscos)
+             if ParamValidos == false{
+                fmt.Println("Parametros Invalidos")
+            }
         case "mkfs":
             ParamValidos = EjecutarComandoMKFS(comandoTemp.Name,comandoTemp.Propiedades,ListaDiscos)
              if ParamValidos == false{
                 fmt.Println("Parametros Invalidos")
             }
+        case "rmgrp":
+            ParamValidos = EjecutarComandoMKGRP(comandoTemp.Name,comandoTemp.Propiedades,ListaDiscos)
+             if ParamValidos == false{
+                fmt.Println("Parametros Invalidos")
+            }    
         case "login":
-        ParamValidos = EjecutarComandoLogin(comandoTemp.Name,comandoTemp.Propiedades,ListaDiscos)
-         if ParamValidos == false{
+        ParamValidos,global = EjecutarComandoLogin(comandoTemp.Name,comandoTemp.Propiedades,ListaDiscos)
+        if ParamValidos == false{
             fmt.Println("Parametros Invalidos")
         }
+        case "logout":
+            if global == ""{
+                fmt.Println("Debe Iniciar Sesion")
+            }else{
+                global = ""
+                fmt.Println("Sesion finalizada")
+            }
         default:
             fmt.Println("Error al Ejecutar el Comando")
         }

@@ -23,12 +23,19 @@ func EjecutarComandoRMGRP(nombreComando string,propiedadesTemp []Propiedad,Lista
 	    		fmt.Println("Error al Ejecutar el Comando")
 	        }
 	    }
+	    ExecuteRMGRP(propiedades[0],propiedades[1],ListaDiscos)
 	    return ParamValidos
 	}else{
 		ParamValidos = false
 		return ParamValidos
 	}
 }
-func ExecuteRMGRP(){
-
+func ExecuteRMGRP(id string,name string,ListaDiscos *list.List){
+	//pathDisco,nombreParticion,_:=RecorrerListaDisco(id,ListaDiscos)
+	if global == "root"{
+		//ModificarArchivo(pathDisco,nombreParticion,"users.txt",name)
+	}else{
+		fmt.Println("NO existe usuario/usuario incorrecto")
+	}
+	
 }

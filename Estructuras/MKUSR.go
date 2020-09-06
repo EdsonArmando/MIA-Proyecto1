@@ -27,12 +27,19 @@ func EjecutarComandoMKUSR(nombreComando string,propiedadesTemp []Propiedad,Lista
 	    		fmt.Println("Error al Ejecutar el Comando")
 	        }
 	    }
+	    ExecuteMKUSR(propiedades[0],propiedades[1],propiedades[2],propiedades[3],ListaDiscos)
 	    return ParamValidos
 	}else{
 		ParamValidos = false
 		return ParamValidos
 	}
 }
-func ExecuteMKUSR(){
-
+func ExecuteMKUSR(id string,user string,password string,grupo string,ListaDiscos *list.List){
+	//pathDisco,nombreParticion,_:=RecorrerListaDisco(id,ListaDiscos)
+	if global == "root"{
+		//ModificarArchivo(pathDisco,nombreParticion,"users.txt",name)
+	}else{
+		fmt.Println("NO existe usuario/usuario incorrecto")
+	}
+	
 }

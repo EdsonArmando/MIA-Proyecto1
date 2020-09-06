@@ -92,6 +92,7 @@ type SB struct{
     Sb_dirst_free_bit_tabla_inodo int64
     Sb_first_free_bit_bloques int64
     Sb_magic_num int64
+    ConteoAVD int64
 
 }
 
@@ -144,5 +145,8 @@ type Bitacora struct{
 
 //
 func BytesNombreParticion(data [15]byte) string {
+    return string(data[:])
+}
+func ConvertData(data [25]byte) string {
     return string(data[:])
 }

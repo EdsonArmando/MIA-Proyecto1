@@ -103,10 +103,10 @@ func ExecuteMKFS(id string,ListaDiscos *list.List)(bool){
 	fmt.Println("CantidadAVD",cantidadAVD,"CantidadDD",cantidadDD,"CantidadInodos",cantidadInodos,"CantidadBloques",cantidadBloques,"CantidadBitacoras",Bitacoras)
 	//Inicializando SuperBloque
 	copy(superBloque.Sb_nombre_hd[:],nombreDisco)
-	superBloque.Sb_arbol_virtual_count = 0
-	superBloque.Sb_detalle_directorio_count = 0
-	superBloque.Sb_inodos_count = 0
-	superBloque.Sb_bloques_count = 0
+	superBloque.Sb_arbol_virtual_count = cantidadAVD
+	superBloque.Sb_detalle_directorio_count = cantidadDD
+	superBloque.Sb_inodos_count = cantidadInodos
+	superBloque.Sb_bloques_count = cantidadBloques
 	//
 	superBloque.Sb_arbol_virtual_free  = cantidadAVD
     superBloque.Sb_detalle_directorio_free = cantidadDD
@@ -134,6 +134,7 @@ func ExecuteMKFS(id string,ListaDiscos *list.List)(bool){
     superBloque.Sb_dirst_free_bit_tabla_inodo = InicioBitmapInodo
     superBloque.Sb_first_free_bit_bloques = InicioBitmapBloque
     superBloque.Sb_magic_num = 201701029
+    superBloque.ConteoAVD = 0
     //Escribir en Particion
     f, err := os.OpenFile(pathDisco,os.O_RDWR,0755)
 	if err != nil {
@@ -166,6 +167,7 @@ func ExecuteMKFS(id string,ListaDiscos *list.List)(bool){
     //Escribir Detalle Directorio
     f.Seek(InicioDD,0)
     i=0
+    dd.Dd_ap_detalle_directorio = -1
     for i=0;i<cantidadDD;i++{
     	err = binary.Write(f, binary.BigEndian, &dd)
     }
@@ -283,11 +285,15 @@ func CrearRaiz(pathDisco string,InicioParticion int64)(bool){
 	f.Seek(InicioParticion,0)
 	sb := SB{}
 	err = binary.Read(f, binary.BigEndian, &sb)
-	//Escribir 1 en bitmapa avd y escribir avd
+	/*
+	Escribir 1 en bitmap avd y escribir avd
+	*/
 	f.Seek(sb.Sb_ap_bitmap_arbol_directorio,0)
 	var otro int8 = 0
 	otro = 1
 	err = binary.Write(f, binary.BigEndian, &otro)
+	bitLibre,_:=f.Seek(0, os.SEEK_CUR)
+	sb.Sb_first_free_bit_arbol_directorio = bitLibre
 	avd := AVD{}
 	copy(avd.Avd_fecha_creacion[:], dt.String())
 	copy(avd.Avd_nomre_directotrio[:],"/")
@@ -299,11 +305,17 @@ func CrearRaiz(pathDisco string,InicioParticion int64)(bool){
 	copy(avd.Avd_proper[:],"root")
 	f.Seek(sb.Sb_ap_arbol_directorio,0)
 	err = binary.Write(f, binary.BigEndian, &avd)
-	//Escribir 1 en bitmap detalleDirectorio y escribir detalleDirectorio
+
+	sb.Sb_arbol_virtual_free  = sb.Sb_arbol_virtual_free - 1
+	/*
+	Escribir 1 en bitmap detalleDirectorio y escribir detalleDirectorio
+	*/
 	f.Seek(sb.Sb_ap_bitmap_detalle_directorio,0)
 	otro = 1
 	err = binary.Write(f, binary.BigEndian, &otro)
 	otro=0
+	bitLibre,_ =f.Seek(0, os.SEEK_CUR)
+	sb.Sb_first_free_bit_detalle_directoriio = bitLibre
 	detalleDirectorio :=DD{}
 	arregloDD :=ArregloDD{}
 	copy(arregloDD.Dd_file_nombre[:],"users.txt")
@@ -313,41 +325,137 @@ func CrearRaiz(pathDisco string,InicioParticion int64)(bool){
 	detalleDirectorio.Dd_array_files[0] = arregloDD
 	f.Seek(sb.Sb_ap_detalle_directorio,0)
 	err = binary.Write(f, binary.BigEndian, &detalleDirectorio)
-	//Escribir 1 en bitmap tablaInodo y escribir Inodo
+
+	sb.Sb_detalle_directorio_free = sb.Sb_detalle_directorio_free - 1
+	/*
+	Escribir 1 en bitmap tablaInodo y escribir Inodo
+	*/
+	var cantidadBloque int64=CantidadBloqueUsar("1,G,root\n1,U,root,root,201701029\n")
 	f.Seek(sb.Sb_ap_bitmap_tabla_inodo,0)
 	otro = 1
 	err = binary.Write(f, binary.BigEndian, &otro)
 	otro=0
+	bitLibre,_ =f.Seek(0, os.SEEK_CUR)
+	sb.Sb_dirst_free_bit_tabla_inodo = bitLibre
 	inodo := Inodo{}
-	inodo.I_count_inodo = sb.Sb_inodos_count
+	for j:=0;j<4;j++{
+		inodo.I_array_bloques[j]=-1
+	}
+	inodo.I_count_inodo = 0
 	inodo.I_size_archivo = 10
-	inodo.I_count_bloques_asignados = 1
-	inodo.I_array_bloques[0] = 0 
+	inodo.I_count_bloques_asignados = cantidadBloque
+	for h:=0;h<int(cantidadBloque);h++{
+		inodo.I_array_bloques[h] = int64(h) 
+	}
 	inodo.I_ao_indirecto = -1
 	inodo.I_id_proper = 201701029
 	f.Seek(sb.Sb_ap_tabla_inodo,0)
 	err = binary.Write(f, binary.BigEndian, &inodo)
-	//Escribir 1 en bitmap bloqueDatos y escribir el bloque datos
+
+	sb.Sb_inodos_free = sb.Sb_inodos_free - 1	
+	/*
+	Escribir 1 en bitmap bloqueDatos y escribir el bloque datos
+	*/
 	f.Seek(sb.Sb_ap_bitmap_bloques,0)
 	otro = 1
-	err = binary.Write(f, binary.BigEndian, &otro)
+	for k:=0;k<int(cantidadBloque);k++{
+		err = binary.Write(f, binary.BigEndian, &otro)
+	}
 	otro=0
-	bloque := Bloque{}
-	copy(bloque.Db_data[:],"1,G,root \n 1,U,root,root,201701029\n")
+	bitLibre,_ =f.Seek(0, os.SEEK_CUR)
+	sb.Sb_first_free_bit_bloques = bitLibre
 	f.Seek(sb.Sb_ap_bloques,0)
-	err = binary.Write(f, binary.BigEndian, &bloque)
-	//Actualizar SB
-	sb.Sb_arbol_virtual_count = sb.Sb_arbol_virtual_count + 1
-	sb.Sb_detalle_directorio_count = sb.Sb_arbol_virtual_count + 1
-	sb.Sb_inodos_count = sb.Sb_arbol_virtual_count + 1
-	sb.Sb_bloques_count = sb.Sb_arbol_virtual_count + 1
-
-	sb.Sb_arbol_virtual_free  = sb.Sb_arbol_virtual_free - 1
-    sb.Sb_detalle_directorio_free = sb.Sb_detalle_directorio_free - 1
-    sb.Sb_inodos_free = sb.Sb_inodos_free - 1
-    sb.Sb_bloques_free = sb.Sb_bloques_free - 1
-
+	usesTxt := []byte("1,G,root\n1,U,root,root,201701029\n")
+	for k:=0;k<int(cantidadBloque);k++{
+		if k==0{
+			bloque := Bloque{}
+			copy(bloque.Db_data[:],string([]byte(usesTxt[0:25])))
+			err = binary.Write(f, binary.BigEndian, &bloque)
+		}else{
+			bloque := Bloque{}
+			copy(bloque.Db_data[:],string([]byte(usesTxt[k*25:len(usesTxt)])))
+			err = binary.Write(f, binary.BigEndian, &bloque)
+		}
+		sb.Sb_bloques_free = sb.Sb_bloques_free - 1
+	}
+	/*
+	Actualizar SB
+	*/
+	f.Seek(0,0)
 	f.Seek(InicioParticion,0)
 	err = binary.Write(f, binary.BigEndian, &sb)
 	return false
+}
+func CantidadBloqueUsar(data string)(int64){
+	var noBloque int64 = 0
+    cont := 0
+	var dataX []byte = []byte(data)
+	for i:=0;i<len(dataX);i++{
+		if cont == 25{
+			noBloque = noBloque + 1
+			cont = 0
+		}
+		cont++
+	}
+	if len(dataX)%5 != 0{
+		noBloque = noBloque + 1
+	}
+	return noBloque
+}
+func DevolverSuperBlque(path string,nombreParticion string) (SB,int64){
+	mbr := MBR{}
+	sb := SB{}
+    var Particiones [4]Particion 
+    var nombre2 [15]byte
+    copy(nombre2[:],nombreParticion)
+	f, err := os.OpenFile(path,os.O_RDONLY,0755)
+	if err != nil {
+		fmt.Println("No existe la ruta"+path)
+		return sb,0
+	}
+	defer f.Close()
+
+	f.Seek(0,0)
+	err = binary.Read(f, binary.BigEndian, &mbr)
+	if err != nil {
+		fmt.Println("No existe el archivo en la ruta")
+	}
+	Particiones = mbr.Particiones
+	for i:=0;i<4;i++{
+		if BytesNombreParticion(Particiones[i].NombreParticion)==BytesNombreParticion(nombre2){
+			f.Seek(Particiones[i].Inicio_particion,0)
+			err = binary.Read(f, binary.BigEndian, &sb)
+			return sb , Particiones[i].Inicio_particion
+		}
+	}
+	for i:=0;i<4;i++{
+			if  strings.ToLower(BytesToString(Particiones[i].TipoParticion)) == "e"{
+				var InicioExtendida int64=Particiones[i].Inicio_particion
+				f.Seek(InicioExtendida,0)
+				ebr:=EBR{}
+				err = binary.Read(f, binary.BigEndian, &ebr)
+				if ebr.Particion_Siguiente == -1{
+					fmt.Println("No Hay particiones Logicas")
+				}else{
+					f.Seek(InicioExtendida,0)
+					err = binary.Read(f, binary.BigEndian, &ebr)
+					for {
+						if ebr.Particion_Siguiente == -1{
+							break
+						}else{
+							f.Seek(ebr.Particion_Siguiente,0)
+							err = binary.Read(f, binary.BigEndian, &ebr)
+						}
+						if BytesNombreParticion(ebr.NombreParticion)==BytesNombreParticion(nombre2){
+							fmt.Println("Logica Encontrada")
+							f.Seek(ebr.Inicio_particion,0)
+							err = binary.Read(f, binary.BigEndian, &sb)
+							return sb ,ebr.Inicio_particion
+						}
+						
+					}
+				}
+			}
+		}
+	return sb,0
 }
