@@ -104,11 +104,21 @@ func RecorrerListaComando(ListaComandos *list.List,ListaDiscos *list.List){
              if ParamValidos == false{
                 fmt.Println("Parametros Invalidos")
             }
+        case "mkfile":
+            ParamValidos = EjecutarComandoMKFILE(comandoTemp.Name,comandoTemp.Propiedades,ListaDiscos)
+             if ParamValidos == false{
+                fmt.Println("Parametros Invalidos")
+            }
         case "mkfs":
             ParamValidos = EjecutarComandoMKFS(comandoTemp.Name,comandoTemp.Propiedades,ListaDiscos)
              if ParamValidos == false{
                 fmt.Println("Parametros Invalidos")
             }
+        case "reporte":
+            ParamValidos = EjecutarComandoReporte(comandoTemp.Name,comandoTemp.Propiedades,ListaDiscos)
+             if ParamValidos == false{
+                fmt.Println("Parametros Invalidos")
+            }    
         case "rmgrp":
             ParamValidos = EjecutarComandoMKGRP(comandoTemp.Name,comandoTemp.Propiedades,ListaDiscos)
              if ParamValidos == false{

@@ -1,0 +1,14 @@
+digraph grafica{
+rankdir=TB;
+node [shape = record, style=filled, fillcolor=seashell2];
+nodo0[ shape=record, label ="{/|{<f0> 1|<f1>2|<f2> 3|<f3> 4|<f4> 5|<f5>8|<f6>0|<f7> -1}}"];
+nodo1[ shape=record, label ="{bin|{<f0> -1|<f1>-1|<f2> -1|<f3> -1|<f4> -1|<f5>-1|<f6>1|<f7> -1}}"];
+nodo2[ shape=record, label ="{usr|{<f0> -1|<f1>-1|<f2> -1|<f3> -1|<f4> -1|<f5>-1|<f6>2|<f7> -1}}"];
+nodo3[ shape=record, label ="{hola|{<f0> -1|<f1>-1|<f2> -1|<f3> -1|<f4> -1|<f5>-1|<f6>3|<f7> -1}}"];
+nodo4[ shape=record, label ="{etc|{<f0> -1|<f1>-1|<f2> -1|<f3> -1|<f4> -1|<f5>-1|<f6>4|<f7> -1}}"];
+nodo5[ shape=record, label ="{home|{<f0> 6|<f1>-1|<f2> -1|<f3> -1|<f4> -1|<f5>-1|<f6>5|<f7> -1}}"];
+nodo6[ shape=record, label ="{user|{<f0> 7|<f1>-1|<f2> -1|<f3> -1|<f4> -1|<f5>-1|<f6>6|<f7> -1}}"];
+nodo7[ shape=record, label ="{docs|{<f0> -1|<f1>-1|<f2> -1|<f3> -1|<f4> -1|<f5>-1|<f6>7|<f7> -1}}"];
+nodo8[ shape=record, label ="{siete|{<f0> -1|<f1>-1|<f2> -1|<f3> -1|<f4> -1|<f5>-1|<f6>8|<f7> -1}}"];
+
+}

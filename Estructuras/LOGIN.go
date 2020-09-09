@@ -118,7 +118,7 @@ func ExecuteLogin(usuario string,password string,id string,ListaDiscos *list.Lis
 }
 func RecorrerListaDisco(id string,ListaDiscos *list.List)(string,string,string){
 	Id:= strings.ReplaceAll(id, "vd","")
-	NoParticion := Id[1:]
+	//NoParticion := Id[1:]
 	IdDisco := Id[:1]
 	pathDisco := ""
 	nombreParticion:=""
@@ -142,6 +142,5 @@ func RecorrerListaDisco(id string,ListaDiscos *list.List)(string,string,string){
 		}
 		element.Value = disco
 	}
-	fmt.Println(NoParticion)
 	return "","",""
 }

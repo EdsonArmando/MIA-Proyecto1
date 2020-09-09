@@ -12,18 +12,15 @@ mkdir -p -id->vda1 -path->/hola
 mkdir -p -id->vda1 -path->/etc
 mkdir -p -id->vda1 -path->/home
 mkdir -p -id->vda1 -path->/home/user/docs
-mkdir -p -id->vda1 -path->/home/user1
-mkdir -p -id->vda1 -path->/home/user2
-mkdir -p -id->vda1 -path->/home/user3
-mkdir -p -id->vda1 -path->/home/user4
-mkdir -p -id->vda1 -path->/home/user5
-mkdir -p -id->vda1 -path->/home/user6
-mkdir -p -id->vda1 -path->/home/user7
-mkdir -p -id->vda1 -path->/home/user8
-mkdir -p -id->vda1 -path->/home/user9
-mkdir -p -id->vda1 -path->/home/user10
-mkdir -p -id->vda1 -path->/home/user11
-mkdir -p -id->vda1 -path->/home/user12
-mkdir -p -id->vda1 -path->/home/user13
-mkdir -p -id->vda1 -path->/home/user14
-mkdir -p -id->vda1 -path->/home/user15
+mkFile -p -SIZE->15 -id->vda1 -path->"/siete/otra.txt" -cont->"lkjhhgulllllgfyghyghfytsaasdasasffsdgdgfdgdfgdgdfgfdfggyb214lkjhhggfyghfytfgyhgyb214lkjhhgugfyghyghfytfggyb214lkjhhggfyghfytfgyhgyb214"
+mkFile -p -SIZE->15 -id->vda1 -path->"/siete/otra2.txt" -cont->"gfyghfytfgyhgyb214"
+mkFile -p -SIZE->15 -id->vda1 -path->"/siete/otra3.txt" -cont->"gfyghfytfgyhgyb214"
+mkFile -p -SIZE->15 -id->vda1 -path->"/siete/otra4.txt" -cont->"gfyghfytfgyhgyb214"
+mkFile -p -SIZE->15 -id->vda1 -path->"/siete/otra5.txt" -cont->"gfyghfytfgyhgyb214"
+mkFile -p -SIZE->15 -id->vda1 -path->"/siete/otra6.txt" -cont->"gfyghfytfgyhgyb214"
+mkFile -p -SIZE->15 -id->vda1 -path->"/siete/ferna.txt" -cont->"gfyghfytfgyhgyb214"
+mkFile -p -SIZE->15 -id->vda1 -path->"/siete/dulc.txt" -cont->"gfyghfytfgyhgyb214"
+mkFile -p -SIZE->15 -id->vda1 -path->"/siete/otra6.txt" -cont->"gfyghfytfgyhgyb214"
+mkFile -p -SIZE->15 -id->vda1 -path->"/siete/ferna.txt" -cont->"gfyghfytfgyhgyb214"
+mkFile -p -SIZE->15 -id->vda1 -path->"/siete/dulc.txt" -cont->"gfyghfytfgyhgyb214"
+reporte -id->vda1

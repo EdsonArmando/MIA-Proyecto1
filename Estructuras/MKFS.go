@@ -135,6 +135,9 @@ func ExecuteMKFS(id string,ListaDiscos *list.List)(bool){
     superBloque.Sb_first_free_bit_bloques = InicioBitmapBloque
     superBloque.Sb_magic_num = 201701029
     superBloque.ConteoAVD = 0
+    superBloque.ConteoDD = 0
+    superBloque.ConteoInodo = 0
+    superBloque.ConteoBloque = 0
     //Escribir en Particion
     f, err := os.OpenFile(pathDisco,os.O_RDWR,0755)
 	if err != nil {
@@ -180,6 +183,7 @@ func ExecuteMKFS(id string,ListaDiscos *list.List)(bool){
     //Escribir Tabla Inodos
 	f.Seek(InicioInodo,0)
 	    i=0
+	    inodo.I_count_inodo = -1
 	    for i=0;i<cantidadInodos;i++{
 	    	err = binary.Write(f, binary.BigEndian, &inodo)
 	    }
@@ -192,6 +196,7 @@ func ExecuteMKFS(id string,ListaDiscos *list.List)(bool){
     //Escribir Bloque de datos
     f.Seek(InicioBLoque,0)
 	    i=0
+	    copy(bloque.Db_data[:],"")
 	    for i=0;i<cantidadBloques;i++{
 	    	err = binary.Write(f, binary.BigEndian, &bloque)
 	    }
@@ -323,6 +328,15 @@ func CrearRaiz(pathDisco string,InicioParticion int64)(bool){
 	copy(arregloDD.Dd_file_date_modificacion[:],dt.String())
 	arregloDD.Dd_file_ap_inodo = 0
 	detalleDirectorio.Dd_array_files[0] = arregloDD
+	detalleDirectorio.Ocupado = 1
+	for j:=0;j<5;j++{
+		if j==0{
+			detalleDirectorio.Dd_array_files[j].Dd_file_ap_inodo=0
+		}else{
+			detalleDirectorio.Dd_array_files[j].Dd_file_ap_inodo=-1
+			}
+		}
+	detalleDirectorio.Dd_ap_detalle_directorio = -1
 	f.Seek(sb.Sb_ap_detalle_directorio,0)
 	err = binary.Write(f, binary.BigEndian, &detalleDirectorio)
 
@@ -351,7 +365,6 @@ func CrearRaiz(pathDisco string,InicioParticion int64)(bool){
 	inodo.I_id_proper = 201701029
 	f.Seek(sb.Sb_ap_tabla_inodo,0)
 	err = binary.Write(f, binary.BigEndian, &inodo)
-
 	sb.Sb_inodos_free = sb.Sb_inodos_free - 1	
 	/*
 	Escribir 1 en bitmap bloqueDatos y escribir el bloque datos
@@ -377,6 +390,7 @@ func CrearRaiz(pathDisco string,InicioParticion int64)(bool){
 			err = binary.Write(f, binary.BigEndian, &bloque)
 		}
 		sb.Sb_bloques_free = sb.Sb_bloques_free - 1
+		sb.ConteoBloque = sb.ConteoBloque + int64(k)
 	}
 	/*
 	Actualizar SB
@@ -387,6 +401,23 @@ func CrearRaiz(pathDisco string,InicioParticion int64)(bool){
 	return false
 }
 func CantidadBloqueUsar(data string)(int64){
+	var noBloque int64 = 0
+    cont := 1
+	var dataX []byte = []byte(data)
+	fmt.Println(len(dataX))
+	for i:=0;i<len(dataX);i++{
+		if cont == 25{
+			noBloque = noBloque + 1
+			cont = 0
+		}
+		cont++
+	}
+	if len(dataX)%25 != 0{
+		noBloque = noBloque + 1
+	}
+	return noBloque
+}
+func CantidadInodosUsar(data string)(int64){
 	var noBloque int64 = 0
     cont := 0
 	var dataX []byte = []byte(data)

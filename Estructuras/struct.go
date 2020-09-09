@@ -93,6 +93,9 @@ type SB struct{
     Sb_first_free_bit_bloques int64
     Sb_magic_num int64
     ConteoAVD int64
+    ConteoDD int64
+    ConteoInodo int64
+    ConteoBloque int64
 
 }
 
@@ -116,6 +119,7 @@ type ArregloDD struct{
 type DD struct{
     Dd_array_files [5]ArregloDD
     Dd_ap_detalle_directorio int64
+    Ocupado int8
 }
 
 

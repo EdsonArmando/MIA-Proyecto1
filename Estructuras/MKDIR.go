@@ -66,17 +66,27 @@ func RecorrePath(path string,nombreParticion string,pathDisco string){
 	if strings.Contains(path, "/"){
 		carpetas:= strings.Split(path, "/")
 		if len(carpetas)==2{
-			ModificarCarpeta(pathDisco,nombreParticion,"/","")
-				if ExisteCarpeta(pathDisco,nombreParticion,carpetas[1])==false{
-					CrearCarpeta(pathDisco,nombreParticion,carpetas[1])
-				}
+			if ExisteCarpeta(pathDisco,nombreParticion,carpetas[1])==false{
+				otroAvd, _ := ModificarCarpeta(pathDisco,nombreParticion,"/","")
+				if otroAvd == true{
+						ModificarCarpeta(pathDisco,nombreParticion,"/","/")
+						CrearCarpeta(pathDisco,nombreParticion,carpetas[1])
+				}else{
+						if ExisteCarpeta(pathDisco,nombreParticion,carpetas[1])==false{
+						CrearCarpeta(pathDisco,nombreParticion,carpetas[1])
+					}
+				}				
+			}
 		}else{
 			//mkdir -p -id->vda1 -path->/home/user6/nueva
 			for i:=1;i<len(carpetas);i++{
 				if ExisteCarpeta(pathDisco,nombreParticion,carpetas[i])==false{
-					otroAvd, noCarpeta2 := ModificarCarpeta(pathDisco,nombreParticion,carpetas[i-1],"")
+					if carpetas[i-1]==""{
+						carpetas[i-1]="/"
+					}
+					otroAvd, _ := ModificarCarpeta(pathDisco,nombreParticion,carpetas[i-1],"")
 					if otroAvd == true{
-						fmt.Println("Necesita modificar el otro avd",noCarpeta2,carpetas[i-1])
+						//fmt.Println("Necesita modificar el otro avd",noCarpeta2,carpetas[i-1])
 						ModificarCarpeta(pathDisco,nombreParticion,carpetas[i-1],carpetas[i-1])
 						CrearCarpeta(pathDisco,nombreParticion,carpetas[i])
 					}else{
@@ -138,7 +148,7 @@ func ModificarCarpeta(pathDisco string,nombreParticion string,carpetaModificar s
 			for i:=0;i<len(avd.Avd_ap_array_subdirectoios);i++{
 				if avd.Avd_ap_array_subdirectoios[i]==-1{
 					avd.Avd_ap_array_subdirectoios[i]=sb.ConteoAVD + 1
-					fmt.Println(avd.Avd_ap_array_subdirectoios)
+					//fmt.Println(avd.Avd_ap_array_subdirectoios,avd.Avd_ap_detalle_directorio)
 					puntero_avd = false
 					break
 				}
@@ -218,7 +228,7 @@ func CrearCarpeta(pathDisco string,nombreParticion string,carpetaHija string)(bo
 			for j:=0;j<6;j++{
 				avdTemp.Avd_ap_array_subdirectoios[j]=-1
 			}
-			avdTemp.Avd_ap_detalle_directorio = 0
+			avdTemp.Avd_ap_detalle_directorio = sb.ConteoDD + 1
 			avdTemp.Avd_ap_arbol_virtual_directorio = -1
 			copy(avdTemp.Avd_proper[:],global)
 			f.Seek(bitLibre,0)
@@ -228,6 +238,7 @@ func CrearCarpeta(pathDisco string,nombreParticion string,carpetaHija string)(bo
 			err = binary.Write(f, binary.BigEndian, &avdTemp)
 			sb.Sb_arbol_virtual_free  = sb.Sb_arbol_virtual_free - 1
 			sb.ConteoAVD = sb.ConteoAVD + 1
+			sb.ConteoDD = sb.ConteoDD +1 
 			/*
 			Marcar en bitmap
 			*/
@@ -250,11 +261,20 @@ func CrearCarpeta(pathDisco string,nombreParticion string,carpetaHija string)(bo
 			f.Seek(sb.Sb_ap_detalle_directorio,0)
 			for i:=0;i<int(sb.Sb_detalle_directorio_count);i++{
 				err = binary.Read(f, binary.BigEndian, &detalleDirectorio)
-				if detalleDirectorio.Dd_ap_detalle_directorio == -1{
+				if detalleDirectorio.Ocupado == 0{
 					detalleDirectorioTemp := DD{}
-					detalleDirectorioTemp.Dd_ap_detalle_directorio = int64(i)
+					arregloDD := ArregloDD{}
+					arregloDD.Dd_file_ap_inodo = -1
+					for j:=0;j<5;j++{
+						detalleDirectorioTemp.Dd_array_files[j] = arregloDD
+					}
+					detalleDirectorioTemp.Ocupado = 1
+					detalleDirectorioTemp.Dd_ap_detalle_directorio = -1
 					f.Seek(bitLibreDD,0)
 					err = binary.Write(f, binary.BigEndian, &detalleDirectorioTemp)
+					/*for j:=0;j<5;j++{
+						fmt.Println(detalleDirectorioTemp.Dd_array_files[j].Dd_file_ap_inodo)
+					}*/
 					sb.Sb_detalle_directorio_free = sb.Sb_detalle_directorio_free - 1
 					bitLibreDD = 0
 					break
@@ -271,17 +291,23 @@ func CrearCarpeta(pathDisco string,nombreParticion string,carpetaHija string)(bo
 		}
 		bitLibre,_=f.Seek(0, os.SEEK_CUR)
 	}
-	f.Seek(sb.Sb_ap_arbol_directorio,0)
-	for i:=0;i<30;i++{
+	/*f.Seek(sb.Sb_ap_arbol_directorio,0)
+	for i:=0;i<13;i++{
 		err = binary.Read(f, binary.BigEndian, &avd)
 		fmt.Printf("carpeta: %s\n",avd.Avd_nomre_directotrio)
+		fmt.Println(avd.Avd_ap_detalle_directorio)
 	}
-	f.Seek(sb.Sb_ap_bitmap_detalle_directorio,0)
-	var otro int8=0
-	for i:=0;i<30;i++{
-		err = binary.Read(f, binary.BigEndian, &otro)
-		fmt.Println(otro)
-	}
+	fmt.Println(sb.ConteoDD)
+	
+	f.Seek(sb.Sb_ap_detalle_directorio,0)
+	dd := DD{}
+	for i:=0;i<13;i++{
+		err = binary.Read(f, binary.BigEndian, &dd)
+		for j:=0;j<5;j++{
+			fmt.Print(dd.Dd_array_files[j].Dd_file_ap_inodo==-1)
+		}
+		fmt.Println("----------")
+	}*/
 	return false
 }
 func EscribirDetalleDirectorio(){
