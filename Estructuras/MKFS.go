@@ -404,7 +404,6 @@ func CantidadBloqueUsar(data string)(int64){
 	var noBloque int64 = 0
     cont := 1
 	var dataX []byte = []byte(data)
-	fmt.Println(len(dataX))
 	for i:=0;i<len(dataX);i++{
 		if cont == 25{
 			noBloque = noBloque + 1

@@ -1,14 +1,103 @@
 digraph grafica{
 rankdir=TB;
 node [shape = record, style=filled, fillcolor=seashell2];
-nodo0[ shape=record, label ="{/|{<f0> 1|<f1>2|<f2> 3|<f3> 4|<f4> 5|<f5>8|<f6>0|<f7> -1}}"];
+nodo0:f0 -> nodo1
+nodo0:f1 -> nodo2
+nodo0:f2 -> nodo3
+nodo0:f3 -> nodo4
+nodo0:f4 -> nodo5
+nodo0:f5 -> nodo17
+nodo0:f6 -> node0
+nodo0[ shape=record, label ="{/|{<f0> 1|<f1>2|<f2> 3|<f3> 4|<f4> 5|<f5>17|<f6>0|<f7> -1}}"];
 nodo1[ shape=record, label ="{bin|{<f0> -1|<f1>-1|<f2> -1|<f3> -1|<f4> -1|<f5>-1|<f6>1|<f7> -1}}"];
 nodo2[ shape=record, label ="{usr|{<f0> -1|<f1>-1|<f2> -1|<f3> -1|<f4> -1|<f5>-1|<f6>2|<f7> -1}}"];
 nodo3[ shape=record, label ="{hola|{<f0> -1|<f1>-1|<f2> -1|<f3> -1|<f4> -1|<f5>-1|<f6>3|<f7> -1}}"];
 nodo4[ shape=record, label ="{etc|{<f0> -1|<f1>-1|<f2> -1|<f3> -1|<f4> -1|<f5>-1|<f6>4|<f7> -1}}"];
-nodo5[ shape=record, label ="{home|{<f0> 6|<f1>-1|<f2> -1|<f3> -1|<f4> -1|<f5>-1|<f6>5|<f7> -1}}"];
+nodo5:f0 -> nodo6
+nodo5:f1 -> nodo8
+nodo5:f2 -> nodo9
+nodo5:f3 -> nodo10
+nodo5:f4 -> nodo11
+nodo5:f5 -> nodo12
+nodo5:f7 -> nodo13
+nodo5[ shape=record, label ="{home|{<f0> 6|<f1>8|<f2> 9|<f3> 10|<f4> 11|<f5>12|<f6>5|<f7> 13}}"];
+nodo6:f0 -> nodo7
 nodo6[ shape=record, label ="{user|{<f0> 7|<f1>-1|<f2> -1|<f3> -1|<f4> -1|<f5>-1|<f6>6|<f7> -1}}"];
+nodo7:f6 -> node7
 nodo7[ shape=record, label ="{docs|{<f0> -1|<f1>-1|<f2> -1|<f3> -1|<f4> -1|<f5>-1|<f6>7|<f7> -1}}"];
-nodo8[ shape=record, label ="{siete|{<f0> -1|<f1>-1|<f2> -1|<f3> -1|<f4> -1|<f5>-1|<f6>8|<f7> -1}}"];
+nodo8[ shape=record, label ="{usr1|{<f0> -1|<f1>-1|<f2> -1|<f3> -1|<f4> -1|<f5>-1|<f6>8|<f7> -1}}"];
+nodo9[ shape=record, label ="{usr2|{<f0> -1|<f1>-1|<f2> -1|<f3> -1|<f4> -1|<f5>-1|<f6>9|<f7> -1}}"];
+nodo10:f6 -> node10
+nodo10[ shape=record, label ="{usr3|{<f0> -1|<f1>-1|<f2> -1|<f3> -1|<f4> -1|<f5>-1|<f6>10|<f7> -1}}"];
+nodo11[ shape=record, label ="{usr4|{<f0> -1|<f1>-1|<f2> -1|<f3> -1|<f4> -1|<f5>-1|<f6>11|<f7> -1}}"];
+nodo12[ shape=record, label ="{usr5|{<f0> -1|<f1>-1|<f2> -1|<f3> -1|<f4> -1|<f5>-1|<f6>12|<f7> -1}}"];
+nodo13:f0 -> nodo14
+nodo13:f1 -> nodo15
+nodo13:f2 -> nodo16
+nodo13[ shape=record, label ="{home|{<f0> 14|<f1>15|<f2> 16|<f3> -1|<f4> -1|<f5>-1|<f6>13|<f7> -1}}"];
+nodo14[ shape=record, label ="{usr6|{<f0> -1|<f1>-1|<f2> -1|<f3> -1|<f4> -1|<f5>-1|<f6>14|<f7> -1}}"];
+nodo15[ shape=record, label ="{usr7|{<f0> -1|<f1>-1|<f2> -1|<f3> -1|<f4> -1|<f5>-1|<f6>15|<f7> -1}}"];
+nodo16:f6 -> node16
+nodo16[ shape=record, label ="{usr8|{<f0> -1|<f1>-1|<f2> -1|<f3> -1|<f4> -1|<f5>-1|<f6>16|<f7> -1}}"];
+nodo17:f6 -> node17
+nodo17[ shape=record, label ="{siete|{<f0> -1|<f1>-1|<f2> -1|<f3> -1|<f4> -1|<f5>-1|<f6>17|<f7> -1}}"];
+node0:f1->  nodex0
+node0[shape=record, label="{ dd /|{<f0> users.txt| <f1> 0} |{-1 | } |{-1 | } |{-1 | } |{-1 | } |{*1 | <f10>  }}"];
+
+node7:f1->  nodex1
+node7[shape=record, label="{ dd docs|{<f0> alice.txt| <f1> 1} |{-1 | } |{-1 | } |{-1 | } |{-1 | } |{*1 | <f10>  }}"];
+
+node10:f1->  nodex2
+node10[shape=record, label="{ dd usr3|{<f0> otra5.txt| <f1> 2} |{-1 | } |{-1 | } |{-1 | } |{-1 | } |{*1 | <f10>  }}"];
+
+node16:f1->  nodex13
+node16[shape=record, label="{ dd usr8|{<f0> Luci.txt| <f1> 13} |{-1 | } |{-1 | } |{-1 | } |{-1 | } |{*1 | <f10>  }}"];
+
+node17:f1->  nodex3
+node17:f2->  nodex4
+node17:f3->  nodex5
+node17:f4->  nodex6
+node17:f5->  nodex7
+node17[shape=record, label="{ dd siete|{<f0> otra.txt| <f1> 3} |{<f1> otra2.txt| <f2> 4} |{<f2> otra3.txt| <f3> 5} |{<f3> Ferana.txt| <f4> 6} |{<f4> EDson.txt| <f5> 7} |{18 | <f10>  }}"];
+node17:f10 -> node18
+node18:f1->  nodex8
+node18:f2->  nodex9
+node18:f3->  nodex11
+node18:f4->  nodex12
+node18[shape=record, label="{ dd |{<f0> Luci.txt| <f1> 8} |{<f1> dos.txt| <f2> 9} |{<f2> EDson.txt| <f3> 11} |{<f3> Luci.txt| <f4> 12} |{-1 | } |{*1 | <f10>  }}"];
+
+nodex0[shape=record, label="{Inodo0|{0| <f0> }|{1| <f1> }|{-1 | <f2> }|{-1| <f3> }|{*-1 | <f4> }}"];
+nodex0 :f0-> data0
+nodex0 :f1-> data1
+nodex1[shape=record, label="{Inodo1|{2| <f0> }|{-1| <f1> }|{-1 | <f2> }|{-1| <f3> }|{*-1 | <f4> }}"];
+nodex1 :f0-> data2
+nodex2[shape=record, label="{Inodo2|{3| <f0> }|{-1| <f1> }|{-1 | <f2> }|{-1| <f3> }|{*-1 | <f4> }}"];
+nodex2 :f0-> data3
+nodex3[shape=record, label="{Inodo3|{4| <f0> }|{-1| <f1> }|{-1 | <f2> }|{-1| <f3> }|{*-1 | <f4> }}"];
+nodex3 :f0-> data4
+nodex4[shape=record, label="{Inodo4|{5| <f0> }|{-1| <f1> }|{-1 | <f2> }|{-1| <f3> }|{*-1 | <f4> }}"];
+nodex4 :f0-> data5
+nodex5[shape=record, label="{Inodo5|{6| <f0> }|{-1| <f1> }|{-1 | <f2> }|{-1| <f3> }|{*-1 | <f4> }}"];
+nodex5 :f0-> data6
+nodex6[shape=record, label="{Inodo6|{7| <f0> }|{-1| <f1> }|{-1 | <f2> }|{-1| <f3> }|{*-1 | <f4> }}"];
+nodex6 :f0-> data7
+nodex7[shape=record, label="{Inodo7|{8| <f0> }|{-1| <f1> }|{-1 | <f2> }|{-1| <f3> }|{*-1 | <f4> }}"];
+nodex7 :f0-> data8
+nodex8[shape=record, label="{Inodo8|{9| <f0> }|{-1| <f1> }|{-1 | <f2> }|{-1| <f3> }|{*-1 | <f4> }}"];
+nodex8 :f0-> data9
+nodex9[shape=record, label="{Inodo9|{10| <f0> }|{11| <f1> }|{12 | <f2> }|{13| <f3> }|{10 | <f4> }}"];
+nodex9 :f4 ->nodex10
+nodex9 :f0-> data10
+nodex9 :f1-> data11
+nodex9 :f2-> data12
+nodex9 :f3-> data13
+nodex10[shape=record, label="{Inodo10|{14| <f0> }|{-1| <f1> }|{-1 | <f2> }|{-1| <f3> }|{*-1 | <f4> }}"];
+nodex10 :f0-> data14
+nodex11[shape=record, label="{Inodo11|{15| <f0> }|{-1| <f1> }|{-1 | <f2> }|{-1| <f3> }|{*-1 | <f4> }}"];
+nodex11 :f0-> data15
+nodex12[shape=record, label="{Inodo12|{16| <f0> }|{-1| <f1> }|{-1 | <f2> }|{-1| <f3> }|{*-1 | <f4> }}"];
+nodex12 :f0-> data16
+nodex13[shape=record, label="{Inodo13|{17| <f0> }|{-1| <f1> }|{-1 | <f2> }|{-1| <f3> }|{*-1 | <f4> }}"];
+nodex13 :f0-> data17
 
 }

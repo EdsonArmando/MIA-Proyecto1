@@ -121,8 +121,6 @@ type DD struct{
     Dd_ap_detalle_directorio int64
     Ocupado int8
 }
-
-
 //Cantidad de Inodos
 type Inodo struct{
     I_count_inodo int64

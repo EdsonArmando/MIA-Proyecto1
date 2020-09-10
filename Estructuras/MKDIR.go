@@ -92,6 +92,8 @@ func RecorrePath(path string,nombreParticion string,pathDisco string){
 					}else{
 						CrearCarpeta(pathDisco,nombreParticion,carpetas[i])
 					}
+				}else{
+					//fmt.Println("Exite la carpeta","Hija",carpetas[i],"Padre",carpetas[i-1])
 				}
 			}
 		}

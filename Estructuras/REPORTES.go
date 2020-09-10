@@ -100,6 +100,7 @@ func GraficarMKFS(idParticion string,ListaDiscos *list.List)(bool){
 	sb:=SB{}
 	var dos [15]byte
 	avd := AVD{}
+    var strArray [100]string
 	//var InicioParticion int64 =0
 	pathDisco,nombreParticion,_:=RecorrerListaDisco(idParticion,ListaDiscos)
 	sb,_= DevolverSuperBlque(pathDisco,nombreParticion)
@@ -109,15 +110,108 @@ func GraficarMKFS(idParticion string,ListaDiscos *list.List)(bool){
 		return false
 	}
     defer f.Close()
-
+    /*
+    Graficar AVD's
+    */
     f.Seek(sb.Sb_ap_arbol_directorio,0)
     for i:=0;i<int(sb.Sb_arbol_virtual_count);i++{
     	err = binary.Read(f, binary.BigEndian, &avd)
     	if avd.Avd_nomre_directotrio == dos{
     		break
     	}
-    	fmt.Println(BytesNombreParticion(avd.Avd_nomre_directotrio))
+    	for j:=0;j<6;j++{
+    		if avd.Avd_ap_array_subdirectoios[j]!=-1{
+    			buffer.WriteString("nodo" + strconv.Itoa(i) + ":f"+ strconv.Itoa(j) + " -> nodo" + strconv.Itoa(int(avd.Avd_ap_array_subdirectoios[j])) + "\n")
+    		}else{
+    			break
+    		}
+    	} 
+    	if avd.Avd_ap_arbol_virtual_directorio != -1{
+    		buffer.WriteString("nodo" + strconv.Itoa(i) + ":f7" + " -> nodo" + strconv.Itoa(int(avd.Avd_ap_arbol_virtual_directorio)) + "\n")
+    	}
+    	if EstaLlenoDD(avd.Avd_ap_detalle_directorio,sb.Sb_ap_detalle_directorio,sb.Sb_detalle_directorio_count,pathDisco){
+            strArray[i] = CToGoString(avd.Avd_nomre_directotrio[:])
+    		buffer.WriteString("nodo"+ strconv.Itoa(i) + ":f6 -> node"+strconv.Itoa(int( avd.Avd_ap_detalle_directorio))+ "\n")
+    	}
     	buffer.WriteString("nodo" + strconv.Itoa(i) + "[ shape=record, label =\"" + "{"+ CToGoString(avd.Avd_nomre_directotrio[:])+ "|{<f0> "+strconv.Itoa(int(avd.Avd_ap_array_subdirectoios[0])) +"|<f1>"+strconv.Itoa(int(avd.Avd_ap_array_subdirectoios[1])) + "|<f2> " + strconv.Itoa(int(avd.Avd_ap_array_subdirectoios[2])) + "|<f3> " + strconv.Itoa(int(avd.Avd_ap_array_subdirectoios[3])) + "|<f4> "+ strconv.Itoa(int(avd.Avd_ap_array_subdirectoios[4])) + "|<f5>" +  strconv.Itoa(int(avd.Avd_ap_array_subdirectoios[5])) + "|<f6>" +  strconv.Itoa(int(avd.Avd_ap_detalle_directorio)) + "|<f7> "+  strconv.Itoa(int(avd.Avd_ap_arbol_virtual_directorio)) + "}}\"];\n")
+    }
+    /*
+    Graficar DD's
+    */
+    f.Seek(sb.Sb_ap_detalle_directorio,0)
+    dd := DD{}
+    for i:=0;i<int(sb.Sb_detalle_directorio_count);i++{
+    	err = binary.Read(f, binary.BigEndian, &dd)
+    	if dd.Ocupado == 0{
+    		break
+    	}
+        //fmt.Println(EstaLlenoDD(int64(i),sb.Sb_ap_detalle_directorio,sb.Sb_detalle_directorio_count,pathDisco),i)
+    	if EstaLlenoDD(int64(i),sb.Sb_ap_detalle_directorio,sb.Sb_detalle_directorio_count,pathDisco){
+            for j:=0;j<5;j++{
+                if CToGoString(dd.Dd_array_files[j].Dd_file_nombre[:]) != CToGoString(dos[:]){
+                    buffer.WriteString("node"+ strconv.Itoa(i) + ":f"+strconv.Itoa(j+1) +"->  nodex" + strconv.Itoa(int(dd.Dd_array_files[j].Dd_file_ap_inodo))+ "\n")
+                }
+            }
+    		buffer.WriteString("node"+  strconv.Itoa(i) + "[shape=record, label=\"" + "{ dd " + strArray[i] + "|")
+    		for j:=0;j<5;j++{
+                if CToGoString(dd.Dd_array_files[j].Dd_file_nombre[:]) != CToGoString(dos[:]){
+                    buffer.WriteString("{<f" + strconv.Itoa(j) + "> " + CToGoString(dd.Dd_array_files[j].Dd_file_nombre[:]) + "| <f" + strconv.Itoa(j+1) + "> " + strconv.Itoa(int(dd.Dd_array_files[j].Dd_file_ap_inodo)) + "} |")
+                }else {
+                    buffer.WriteString("{-1 | } |")
+                }
+
+			}
+            if dd.Dd_ap_detalle_directorio != -1{
+                buffer.WriteString("{" + strconv.Itoa(int(dd.Dd_ap_detalle_directorio))+ " | <f10>  }}\"];\n")
+                buffer.WriteString("node"+  strconv.Itoa(i)+":f10 -> " + "node"+strconv.Itoa(int(dd.Dd_ap_detalle_directorio)))
+            }else{
+                buffer.WriteString("{*1 | <f10>  }}\"];\n")
+            }
+            buffer.WriteString("\n")
+    	}
+    }
+    /*
+    Graficar Inodo's
+    X para identificarlos
+    */
+    f.Seek(sb.Sb_ap_tabla_inodo,0)
+    inodo := Inodo{}
+    for i:=0;i<int(sb.Sb_inodos_count);i++{
+        err = binary.Read(f, binary.BigEndian, &inodo)
+        if inodo.I_count_inodo == -1{
+            break
+        }
+        if inodo.I_ao_indirecto != -1{
+            buffer.WriteString("nodex"+strconv.Itoa(int(inodo.I_count_inodo)) + "[shape=record, label=\"{Inodo"+ strconv.Itoa(int(inodo.I_count_inodo)) +"|{"+ strconv.Itoa(int(inodo.I_array_bloques[0])) +"| <f0> }|{" + strconv.Itoa(int(inodo.I_array_bloques[1])) + "| <f1> }|{" + strconv.Itoa(int(inodo.I_array_bloques[2])) +" | <f2> }|{" + strconv.Itoa(int(inodo.I_array_bloques[3])) +"| <f3> }|{" + strconv.Itoa(int(inodo.I_ao_indirecto)) +" | <f4> }}\"];"+ "\n")
+            buffer.WriteString("nodex"+strconv.Itoa(int(inodo.I_count_inodo)) + " :f4 ->" + "nodex"+strconv.Itoa(int(inodo.I_ao_indirecto))+"\n")
+            for h:=0;h<4;h++{
+                if inodo.I_array_bloques[h]==-1{
+                    break
+                }else{
+                    buffer.WriteString("nodex"+strconv.Itoa(int(inodo.I_count_inodo)) + " :f" + strconv.Itoa(h)  +"-> data"+strconv.Itoa(int(inodo.I_array_bloques[h]))+"\n")
+                }
+            }
+        }else{
+            buffer.WriteString("nodex"+strconv.Itoa(int(inodo.I_count_inodo)) + "[shape=record, label=\"{Inodo"+ strconv.Itoa(int(inodo.I_count_inodo)) +"|{"+ strconv.Itoa(int(inodo.I_array_bloques[0])) +"| <f0> }|{" + strconv.Itoa(int(inodo.I_array_bloques[1])) + "| <f1> }|{" + strconv.Itoa(int(inodo.I_array_bloques[2])) +" | <f2> }|{" + strconv.Itoa(int(inodo.I_array_bloques[3])) +"| <f3> }|{*" + strconv.Itoa(int(inodo.I_ao_indirecto)) +" | <f4> }}\"];"+ "\n")
+            for h:=0;h<4;h++{
+                if inodo.I_array_bloques[h]==-1{
+                    break
+                }else{
+                    buffer.WriteString("nodex"+strconv.Itoa(int(inodo.I_count_inodo)) + " :f" + strconv.Itoa(h)  +"-> data"+strconv.Itoa(int(inodo.I_array_bloques[h]))+"\n")
+                }
+            }
+        }
+    }
+    /*
+    Graficar Bloque's
+    */
+    f.Seek(sb.Sb_ap_bloques,0)
+    data := Bloque{}
+    for i:=0;i<int(sb.Sb_bloques_count);i++{
+        if data.Db_data[0]==0{
+            break
+        }
+        buffer.WriteString("data" + strconv.Itoa(i) +"[shape=record, label=\"{data| <f1> }}\"];\n")
 
     }
     buffer.WriteString("\n}")
@@ -126,7 +220,34 @@ func GraficarMKFS(idParticion string,ListaDiscos *list.List)(bool){
     CreateArchivo("/home/edson/Escritorio/Proyecto/Proyecto1/MKFS.dot",datos)
     return false
 }
-
+func EstaLlenoDD(posicion int64,inicioDD int64,cantidadDD int64,pathDisco string)(bool){
+    estaLleno := false
+    f, err := os.OpenFile(pathDisco,os.O_RDWR,0755)
+    if err != nil {
+        fmt.Println("No existe la ruta"+ pathDisco)
+        return false
+    }
+    defer f.Close()
+    f.Seek(inicioDD,0)
+    dd := DD{}
+    for i:=0;i<int(cantidadDD);i++{
+        err = binary.Read(f, binary.BigEndian, &dd)
+        if dd.Ocupado == 0{
+            break
+        }
+        if i == int(posicion){
+            for j:=0;j<5;j++{
+                if len(CToGoString(dd.Dd_array_files[j].Dd_file_nombre[:])) > 0{
+                    estaLleno = true
+                    break
+                }else{
+                    estaLleno= false
+                }
+            }
+        }
+    }
+	return estaLleno
+}
 func CreateArchivo(path string,data string){
 	f, err := os.Create("/home/edson/Escritorio/Proyecto/Proyecto1/MKFS.dot")
 

@@ -231,7 +231,6 @@ func EscribirInodo(pathDisco string, sb SB,contenido string,InicioParticion int6
 	defer f.Close()
 	//Escribir bitmap de Inodo
 	var cantidadBloque int64=CantidadBloqueUsar(contenido)
-	fmt.Println("---------",cantidadBloque)
 	if cantidadBloque>= 5{
 		restoBloque = cantidadBloque - 4
 		cantidadBloque=4
