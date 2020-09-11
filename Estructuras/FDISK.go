@@ -41,6 +41,10 @@ func EjecutarComandoFDISK(nombreComando string,propiedadesTemp []Propiedad)(Para
 	    		fmt.Println("Error al Ejecutar el Comando")
 	        }
 	    }
+	    EsComilla :=  propiedades[3][0:1]
+		if EsComilla == "\""{
+			propiedades[3] = propiedades[3][1 : len(propiedades[3])-1]
+		}
 	    //Tamanio Particion
 	   	var TamanioTotalParticion int64 = 0
 	    if strings.ToLower(propiedades [2])=="b"{

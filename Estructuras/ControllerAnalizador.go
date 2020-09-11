@@ -114,7 +114,7 @@ func RecorrerListaComando(ListaComandos *list.List,ListaDiscos *list.List){
              if ParamValidos == false{
                 fmt.Println("Parametros Invalidos")
             }
-        case "reporte":
+        case "rep":
             ParamValidos = EjecutarComandoReporte(comandoTemp.Name,comandoTemp.Propiedades,ListaDiscos)
              if ParamValidos == false{
                 fmt.Println("Parametros Invalidos")

@@ -32,7 +32,9 @@ func EjecutarComandoMKFILE(nombreComando string,propiedadesTemp []Propiedad,List
         	case "-cont":
         		propiedades [4]=propiedadTemp.Val
         	case "-sigue":
-    			pathEspacio+=propiedadTemp.Val+" "
+    			propiedades [4]+=propiedadTemp.Val
+    		case "-sigueCont":
+    			fmt.Println(propiedadTemp.Val+" ")
 	    	default:
 	    		fmt.Println("Error al Ejecutar el Comando")
 	        }
@@ -42,23 +44,8 @@ func EjecutarComandoMKFILE(nombreComando string,propiedadesTemp []Propiedad,List
 	    	pathCompleta := propiedades[1]+pathEspacio
 	    	ExecuteMKFILE(propiedades[0],pathCompleta[1 : len(pathCompleta)-2],propiedades[2],size,propiedades[4],ListaDiscos)
 	    }else{
-	    	ExecuteMKFILE(propiedades[0],propiedades[1],propiedades[2],size,propiedades[4],ListaDiscos)
+	    	ExecuteMKFILE(propiedades[0],propiedades[1],propiedades[2],size,propiedades[4][0 : len(propiedades[4])-1],ListaDiscos)
 	    }
-	    /*f, err := os.OpenFile("/home/edson/discoPrueba.dsk",os.O_RDWR,0755)
-		if err != nil {
-			fmt.Println("No existe la ruta /home/edson/discoPrueba.dsk")
-			return false
-		}
-	    defer f.Close()
-	    f.Seek(1287360,0)
-		dd := DD{}
-		for i:=0;i<16;i++{
-			err = binary.Read(f, binary.BigEndian, &dd)
-			for j:=0;j<5;j++{
-				fmt.Print(dd.Dd_array_files[j].Dd_file_ap_inodo," ")
-			}
-			fmt.Println("----------",dd.Dd_ap_detalle_directorio)
-		}*/
 	    return ParamValidos
 	}else{
 		ParamValidos = false
@@ -66,7 +53,12 @@ func EjecutarComandoMKFILE(nombreComando string,propiedadesTemp []Propiedad,List
 	}
 }
 func ExecuteMKFILE(idParticion string,pathArchivo string,_p string,size int,contenido string,ListaDiscos *list.List){
-		/*
+	if size > len(contenido){
+		for i:=len(contenido);i<size;i++{
+			contenido=contenido + " "
+		}
+	}
+	/*
 	Quitar las comillas al path si tiene
 	*/
 	EsComilla :=  pathArchivo[0:1]
@@ -253,7 +245,7 @@ func EscribirInodo(pathDisco string, sb SB,contenido string,InicioParticion int6
 	inodo.I_ao_indirecto = -1
 	inodo.I_id_proper = 201701029
 
-	inodo,sb.ConteoBloque = EscribirBloque(sb,cantidadBloque,pathDisco,InicioParticion,inodo,contenido)
+	inodo,sb.ConteoBloque,sb.Sb_first_free_bit_bloques,sb.Sb_bloques_free = EscribirBloque(sb,cantidadBloque,pathDisco,InicioParticion,inodo,contenido)
 	f.Seek(sb.Sb_ap_tabla_inodo,0)
 	inodoTemp := Inodo{}
 	sb.ConteoInodo = sb.ConteoInodo + 1
@@ -281,7 +273,7 @@ func EscribirInodo(pathDisco string, sb SB,contenido string,InicioParticion int6
 	return false
 }
 
-func EscribirBloque(sb SB,cantidadBloque int64,pathDisco string,InicioParticion int64,inodo Inodo,contenido string)(Inodo,int64){
+func EscribirBloque(sb SB,cantidadBloque int64,pathDisco string,InicioParticion int64,inodo Inodo,contenido string)(Inodo,int64,int64,int64){
 	var contenido2 [25]byte
 	copy(contenido2[:],contenido)
 	bloqueTemp := Bloque{}
@@ -289,7 +281,7 @@ func EscribirBloque(sb SB,cantidadBloque int64,pathDisco string,InicioParticion 
 	f, err := os.OpenFile(pathDisco,os.O_RDWR,0755)
 	if err != nil {
 		fmt.Println("No existe la ruta"+pathDisco)
-		return inodo,0
+		return inodo,0,0,0
 	}
 	defer f.Close()
 	/*
@@ -336,5 +328,5 @@ func EscribirBloque(sb SB,cantidadBloque int64,pathDisco string,InicioParticion 
 		}
 		bitLibre_BLoque,_ =f.Seek(0, os.SEEK_CUR)
 	}
-	return inodo,sb.ConteoBloque
+	return inodo,sb.ConteoBloque,sb.Sb_first_free_bit_bloques,sb.Sb_bloques_free
 }

@@ -47,6 +47,10 @@ func EjecutarComandoMKDISK(nombreComando string,propiedadesTemp []Propiedad,cont
 	    		fmt.Println("Error al Ejecutar el Comando")
 	        }
 	    }
+	    EsComilla :=  propiedades[3][0:1]
+		if EsComilla == "\""{
+			propiedades[3] = propiedades[3][1 : len(propiedades[3])-1]
+		}
 	    tamanioTotal ,_ := strconv.ParseInt(propiedades[0], 10, 64)
 	    if propiedades [2] == "k"{
 	    	comandos +=" bs=" + strconv.Itoa((int(tamanioTotal))*1000) + " count=1"
@@ -79,7 +83,7 @@ func EjecutarComandoMKDISK(nombreComando string,propiedadesTemp []Propiedad,cont
 		f.Seek(0,0)
 		err = binary.Write(f, binary.BigEndian, mbr1)
 		if err != nil {
-			log.Fatalln(err)
+			log.Fatalln(err,propiedades[3])
 		}
 		fmt.Println("Disco Creado Exitosamente")
 	    return ParamValidos

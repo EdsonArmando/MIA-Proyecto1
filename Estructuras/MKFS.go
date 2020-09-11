@@ -39,6 +39,7 @@ func EjecutarComandoMKFS(nombreComando string,propiedadesTemp []Propiedad,ListaD
 	}
 }
 func ExecuteMKFS(id string,ListaDiscos *list.List)(bool){
+	dt := time.Now()
 	idValido := IdValido(id,ListaDiscos);
 	if idValido == false{
 		fmt.Println("El id no existe");
@@ -112,9 +113,9 @@ func ExecuteMKFS(id string,ListaDiscos *list.List)(bool){
     superBloque.Sb_detalle_directorio_free = cantidadDD
     superBloque.Sb_inodos_free = cantidadInodos
     superBloque.Sb_bloques_free = cantidadBloques
-    copy(superBloque.Sb_date_creacion[:],"")
-    copy(superBloque.Sb_date_ultimo_montaje[:],"")
-    superBloque.Sb_montajes_count = 0
+    copy(superBloque.Sb_date_creacion[:],dt.String())
+    copy(superBloque.Sb_date_ultimo_montaje[:],dt.String())
+    superBloque.Sb_montajes_count = 1
     //Bitmaps
     superBloque.Sb_ap_bitmap_arbol_directorio = InicioBitmapAVD
     superBloque.Sb_ap_arbol_directorio  = InicioAVD
