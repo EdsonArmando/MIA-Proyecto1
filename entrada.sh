@@ -34,14 +34,24 @@ mkFile -p -SIZE->50 -id->vda1 -path->"/home/user/docs/prueba.txt" -cont->"lffgyh
 mkFile -p -SIZE->50 -id->vda1 -path->"/home/usr5/prueba4.txt" -cont->"lffgyhgyb214"
 #fdisk -delete->fast -name->Particion4 -path->"/home/edson/discoPrueba.dsk"
 rep -id->vda1 -path->"/home/edson/Escritorio/Proyecto/Proyecto1/Report/MBR.dot" -nombre->mbr
+pause
 rep -id->vda1 -path->"/home/edson/Escritorio/Proyecto/Proyecto1/Report/SB.dot" -nombre->sb
+pause
 rep -id->vda1 -path->"/home/edson/Escritorio/Proyecto/Proyecto1/Report/Disk.dot" -nombre->disk
-rep -id->vda1 -path->"/home/edson/Escritorio/Proyecto/Proyecto1/Report/BitmapAVD.dot" -nombre->bm_arbdir
-rep -id->vda1 -path->"/home/edson/Escritorio/Proyecto/Proyecto1/Report/BitmapDD.dot" -nombre->bm_detdir
-rep -id->vda1 -path->"/home/edson/Escritorio/Proyecto/Proyecto1/Report/BitmapInodo.dot" -nombre->bm_inode
-rep -id->vda1 -path->"/home/edson/Escritorio/Proyecto/Proyecto1/Report/BitmapBloques.dot" -nombre->bm_block
+pause
+rep -id->vda1 -path->"/home/edson/Escritorio/Proyecto/Proyecto1/Report/BitmapAVD.txt" -nombre->bm_arbdir
+pause
+rep -id->vda1 -path->"/home/edson/Escritorio/Proyecto/Proyecto1/Report/BitmapDD.txt" -nombre->bm_detdir
+pause
+rep -id->vda1 -path->"/home/edson/Escritorio/Proyecto/Proyecto1/Report/BitmapInodo.txt" -nombre->bm_inode
+pause
+rep -id->vda1 -path->"/home/edson/Escritorio/Proyecto/Proyecto1/Report/BitmapBloques.txt" -nombre->bm_block
+pause
 rep -id->vda1 -path->"/home/edson/Escritorio/Proyecto/Proyecto1/Report/TreeFile.dot" -nombre->tree_file -ruta->"/home/user/docs/alice8.txt"
 rep -id->vda1 -path->"/home/edson/Escritorio/Proyecto/Proyecto1/Report/TreeComplete.dot" -nombre->tree_complete
 rep -id->vda1 -path->"/home/edson/Escritorio/Proyecto/Proyecto1/Report/tree_Directorio.dot" -nombre->tree_directorio -ruta->"/home/user/docs"
 rep -id->vda1 -path->"/home/edson/Escritorio/Proyecto/Proyecto1/Report/DirectorioCompleto.dot" -nombre->directorio
 rep -id->vda1 -path->"/home/edson/Escritorio/Proyecto/Proyecto1/Report/Bitacora.dot" -nombre->bitacora
+#Loss del sistema
+loss -id->vda1
+recovery -id->vda1

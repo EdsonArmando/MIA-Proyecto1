@@ -44,7 +44,7 @@ func EjecutarComandoMKDIR(nombreComando string,propiedadesTemp []Propiedad,Lista
 		return ParamValidos
 	}
 }
-func ExecuteMKDIR(id string,path string, p string,ListaDiscos *list.List){
+func ExecuteMKDIR(id string,path string, p string,ListaDiscos *list.List)(bool){
 	/*
 	Si no existen las carpetas se crean
 	*/
@@ -88,6 +88,7 @@ func ExecuteMKDIR(id string,path string, p string,ListaDiscos *list.List){
 		RecorrePath(path,nombreParticion,pathDisco)
 		//CrearCarpeta(pathDisco,nombreParticion,path)
 	}
+	return true
 }
 func RecorrePath(path string,nombreParticion string,pathDisco string){
 	/*

@@ -52,7 +52,7 @@ func EjecutarComandoMKFILE(nombreComando string,propiedadesTemp []Propiedad,List
 		return ParamValidos
 	}
 }
-func ExecuteMKFILE(idParticion string,pathArchivo string,_p string,size int,contenido string,ListaDiscos *list.List){
+func ExecuteMKFILE(idParticion string,pathArchivo string,_p string,size int,contenido string,ListaDiscos *list.List)(bool){
 	if size > len(contenido){
 		for i:=len(contenido);i<size;i++{
 			contenido=contenido + " "
@@ -67,6 +67,7 @@ func ExecuteMKFILE(idParticion string,pathArchivo string,_p string,size int,cont
 	}
 	pathDisco,nombreParticion,_:=RecorrerListaDisco(idParticion,ListaDiscos)
 	CrearArchivo(pathDisco,nombreParticion,pathArchivo,_p,size,contenido,-1)
+	return true
 
 }
 func CrearArchivo(pathDisco string,nombreParticion string,pathArchivo string,_p string,size int,contenido string,siguienteDD int)(bool){
@@ -116,25 +117,27 @@ func CrearArchivo(pathDisco string,nombreParticion string,pathArchivo string,_p 
 	/*
 	Escribit en bitacora
 	*/
-	f.Seek(sb.Sb_ap_log,0)
-	bitacora := Bitacora{}
-	copy(bitacora.Log_tipo_operacion[:],"mkfile")
-    copy(bitacora.Log_tipo[:],"1")
-    copy(bitacora.Log_nombre[:],pathArchivo)
-    copy(bitacora.Log_Contenido[:],contenido[1:len(contenido)-1])
-    copy(bitacora.Log_fecha[:],dt.String())
-    bitacora.Size = int64(size)
-    bitacoraTemp := Bitacora{}
-    var bitBitacora int64 = 0
-    for i:=0;i<3000;i++{
-    	bitBitacora,_=f.Seek(0, os.SEEK_CUR)
-    	err = binary.Read(f, binary.BigEndian, &bitacoraTemp)
-    	if bitacoraTemp.Size==-1{
-    		f.Seek(bitBitacora,0)
-    		err = binary.Write(f, binary.BigEndian, &bitacora)
-    		break
-    	}
-    }
+	if siguienteDD == -1{
+		f.Seek(sb.Sb_ap_log,0)
+		bitacora := Bitacora{}
+		copy(bitacora.Log_tipo_operacion[:],"mkfile")
+	    copy(bitacora.Log_tipo[:],"1")
+	    copy(bitacora.Log_nombre[:],pathArchivo)
+	    copy(bitacora.Log_Contenido[:],contenido[1:len(contenido)-1])
+	    copy(bitacora.Log_fecha[:],dt.String())
+	    bitacora.Size = int64(size)
+	    bitacoraTemp := Bitacora{}
+	    var bitBitacora int64 = 0
+	    for i:=0;i<3000;i++{
+	    	bitBitacora,_=f.Seek(0, os.SEEK_CUR)
+	    	err = binary.Read(f, binary.BigEndian, &bitacoraTemp)
+	    	if bitacoraTemp.Size==-1{
+	    		f.Seek(bitBitacora,0)
+	    		err = binary.Write(f, binary.BigEndian, &bitacora)
+	    		break
+	    	}
+	    }
+	}
 	//EScribir Arbol Directorio
 
 	f.Seek(sb.Sb_ap_arbol_directorio,0)
@@ -183,7 +186,7 @@ func CrearArchivo(pathDisco string,nombreParticion string,pathArchivo string,_p 
 						nuevoDD.Ocupado = 1
 						//Marcar 1 bitmap DD
 						sb.Sb_detalle_directorio_free = sb.Sb_detalle_directorio_free - 1
-						f.Seek(sb.Sb_ap_bitmap_detalle_directorio,0)
+						f.Seek(sb.Sb_first_free_bit_detalle_directoriio,0)
 						var otro int8 = 1
 						err = binary.Write(f, binary.BigEndian, &otro)
 						otro=0

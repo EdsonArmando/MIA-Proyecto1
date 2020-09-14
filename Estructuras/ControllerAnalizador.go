@@ -74,6 +74,16 @@ func RecorrerListaComando(ListaComandos *list.List,ListaDiscos *list.List){
              if ParamValidos == false{
                 fmt.Println("Parametros Invalidos")
             }
+        case "loss":
+            ParamValidos = EjecutarComandoLOSS(comandoTemp.Name,comandoTemp.Propiedades,ListaDiscos)
+             if ParamValidos == false{
+                fmt.Println("Parametros Invalidos")
+            }
+        case "recovery":
+            ParamValidos = EjecutarComandoRECOVERY(comandoTemp.Name,comandoTemp.Propiedades,ListaDiscos)
+             if ParamValidos == false{
+                fmt.Println("Parametros Invalidos")
+            }
         case "mount":
             if len(comandoTemp.Propiedades) !=0{
                  ParamValidos = EjecutarComandoMount(comandoTemp.Name,comandoTemp.Propiedades,ListaDiscos)

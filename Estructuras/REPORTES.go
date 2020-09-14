@@ -46,6 +46,7 @@ func EjecutarComandoReporte(nombreComando string,propiedadesTemp []Propiedad,Lis
         for i:=1;i<len(carpetas_Graficar)-1;i++{
             comando+=carpetas_Graficar[i]+"/"
         }
+        fmt.Println(comando)
         executeComand("mkdir " + comando[0:len(comando)-1])
         switch strings.ToLower(propiedades[2]){
         case "mbr":
@@ -168,7 +169,6 @@ func Reporteb_m_arbdir(idParticion string,pathCarpeta string,ruta string,ListaDi
             cont=0
         }
     }
-    buffer.WriteString("\n}")
     var datos string
     datos = string(buffer.String())
     CreateArchivo(pathCarpeta,datos)
@@ -202,7 +202,6 @@ func Reporteb_m_detdir(idParticion string,pathCarpeta string,ruta string,ListaDi
             cont=0
         }
     }
-    buffer.WriteString("\n}")
     var datos string
     datos = string(buffer.String())
     CreateArchivo(pathCarpeta,datos)
@@ -237,7 +236,6 @@ func Reporte_bm_inode(idParticion string,pathCarpeta string,ruta string,ListaDis
             cont=0
         }
     }
-    buffer.WriteString("\n}")
     var datos string
     datos = string(buffer.String())
     CreateArchivo(pathCarpeta,datos)
@@ -272,7 +270,6 @@ func Reporte_bm_block(idParticion string,pathCarpeta string,ruta string,ListaDis
             cont=0
         }
     }
-    buffer.WriteString("\n}")
     var datos string
     datos = string(buffer.String())
     CreateArchivo(pathCarpeta,datos)
@@ -964,6 +961,9 @@ func CreateArchivo(path string,data string){
         log.Fatal(err2)
     }
     executeComand("dot -Tpdf "+ path +" -o "+ nombreArchivo[0:len(nombreArchivo)-4] +".pdf")
+    executeComand("xdg-open "+ nombreArchivo[0:len(nombreArchivo)-4] +".pdf")
+    executeComand("xdg-open "+ path)
+
 }	
 
 func convertName(c []byte) string {

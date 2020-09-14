@@ -135,6 +135,7 @@ func ExecuteMKFS(id string,ListaDiscos *list.List)(bool){
     superBloque.Sb_dirst_free_bit_tabla_inodo = InicioBitmapInodo
     superBloque.Sb_first_free_bit_bloques = InicioBitmapBloque
     superBloque.Sb_magic_num = 201701029
+    superBloque.InicioCopiaSB = InicioCopiaSB
     superBloque.ConteoAVD = 0
     superBloque.ConteoDD = 0
     superBloque.ConteoInodo = 0
@@ -176,7 +177,7 @@ func ExecuteMKFS(id string,ListaDiscos *list.List)(bool){
     	err = binary.Write(f, binary.BigEndian, &dd)
     }
     //Escribir Bitmap Tabla Inodo
-    f.Seek(InicioBitmapDD,0)
+    f.Seek(InicioBitmapInodo,0)
     i=0
     for i=0;i<cantidadInodos;i++{
     	err = binary.Write(f, binary.BigEndian, &otro)

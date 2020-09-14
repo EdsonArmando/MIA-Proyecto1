@@ -92,6 +92,7 @@ type SB struct{
     Sb_dirst_free_bit_tabla_inodo int64
     Sb_first_free_bit_bloques int64
     Sb_magic_num int64
+    InicioCopiaSB int64
     ConteoAVD int64
     ConteoDD int64
     ConteoInodo int64
