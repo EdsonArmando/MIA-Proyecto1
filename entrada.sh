@@ -25,7 +25,7 @@ mkdir -p -id->vda1 -path->/home/usr5
 mkdir -p -id->vda1 -path->/home/usr6
 mkdir -p -id->vda1 -path->/home/usr7
 mkdir -p -id->vda1 -path->/home/usr8
-mkFile -p -SIZE->200 -id->vda1 -path->"/home/user/docs/alice.txt" -cont->"Edson Guix"
+mkFile -p -SIZE->1000 -id->vda1 -path->"/home/user/docs/alice.txt" -cont->"Edson Guix"
 mkFile -p -SIZE->50 -id->vda1 -path->"/home/user/docs/alice2.txt" -cont->"lffgyhgyb214"
 mkFile -p -SIZE->15 -id->vda1 -path->"/home/user/docs/alice3.txt" -cont->"lffgyhgyb214"
 mkFile -p -SIZE->15 -id->vda1 -path->"/home/user/docs/alice4.txt" -cont->"lffgyhgyb214"
@@ -33,5 +33,15 @@ mkFile -p -SIZE->500 -id->vda1 -path->"/home/user/docs/alice8.txt" -cont->"lffgy
 mkFile -p -SIZE->50 -id->vda1 -path->"/home/user/docs/prueba.txt" -cont->"lffgyhgyb214"
 mkFile -p -SIZE->50 -id->vda1 -path->"/home/usr5/prueba4.txt" -cont->"lffgyhgyb214"
 #fdisk -delete->fast -name->Particion4 -path->"/home/edson/discoPrueba.dsk"
-rep -id->vda1 -path->"/home/edson/Escritorio/Proyecto/Proyecto1/Direcorio.dot" -nombre->tree_directorio -ruta->"/home/usr5"
-rep -id->vda1 -path->"/home/edson/Escritorio/Proyecto/Proyecto1/TreeFull.dot" -nombre->tree_complete
+rep -id->vda1 -path->"/home/edson/Escritorio/Proyecto/Proyecto1/Report/MBR.dot" -nombre->mbr
+rep -id->vda1 -path->"/home/edson/Escritorio/Proyecto/Proyecto1/Report/SB.dot" -nombre->sb
+rep -id->vda1 -path->"/home/edson/Escritorio/Proyecto/Proyecto1/Report/Disk.dot" -nombre->disk
+rep -id->vda1 -path->"/home/edson/Escritorio/Proyecto/Proyecto1/Report/BitmapAVD.dot" -nombre->bm_arbdir
+rep -id->vda1 -path->"/home/edson/Escritorio/Proyecto/Proyecto1/Report/BitmapDD.dot" -nombre->bm_detdir
+rep -id->vda1 -path->"/home/edson/Escritorio/Proyecto/Proyecto1/Report/BitmapInodo.dot" -nombre->bm_inode
+rep -id->vda1 -path->"/home/edson/Escritorio/Proyecto/Proyecto1/Report/BitmapBloques.dot" -nombre->bm_block
+rep -id->vda1 -path->"/home/edson/Escritorio/Proyecto/Proyecto1/Report/TreeFile.dot" -nombre->tree_file -ruta->"/home/user/docs/alice8.txt"
+rep -id->vda1 -path->"/home/edson/Escritorio/Proyecto/Proyecto1/Report/TreeComplete.dot" -nombre->tree_complete
+rep -id->vda1 -path->"/home/edson/Escritorio/Proyecto/Proyecto1/Report/tree_Directorio.dot" -nombre->tree_directorio -ruta->"/home/user/docs"
+rep -id->vda1 -path->"/home/edson/Escritorio/Proyecto/Proyecto1/Report/DirectorioCompleto.dot" -nombre->directorio
+rep -id->vda1 -path->"/home/edson/Escritorio/Proyecto/Proyecto1/Report/Bitacora.dot" -nombre->bitacora

@@ -1,9 +1,0 @@
-digraph grafica{
-rankdir=TB;
-node [shape = record, style=filled, fillcolor=seashell2];
-nodo12:f6 -> node12
-nodo12[ shape=record, label ="{usr5|{<f0> -1|<f1>-1|<f2> -1|<f3> -1|<f4> -1|<f5>-1|<f6>12|<f7> -1}}"];
-node12[shape=record, label="{ dd usr5|{<f0> prueba4.txt| <f1> 12} |{-1 | } |{-1 | } |{-1 | } |{-1 | } |{*1 | <f10>  }}"];
-
-
-}

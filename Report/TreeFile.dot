@@ -1,0 +1,61 @@
+digraph grafica{
+rankdir=TB;
+node [shape = record, style=filled, fillcolor=seashell2];
+nodo7:f6 -> node7
+nodo7[ shape=record, label ="{docs|{<f0> -1|<f1>-1|<f2> -1|<f3> -1|<f4> -1|<f5>-1|<f6>7|<f7> -1}}"];
+node7:f5->  nodex14
+node7[shape=record, label="{ dd docs|{<f0> alice.txt| <f1> 1} |{<f1> alice2.txt| <f2> 11} |{<f2> alice3.txt| <f3> 12} |{<f3> alice4.txt| <f4> 13} |{<f4> alice8.txt| <f5> 14} |{17 | <f10>  }}"];
+node7:f10 -> node17
+node17[shape=record, label="{ dd |{<f0> prueba.txt| <f1> 19} |{-1 | } |{-1 | } |{-1 | } |{-1 | } |{*1 | <f10>  }}"];
+
+nodex14[shape=record, label="{Inodo14|{46| <f0> }|{47| <f1> }|{48 | <f2> }|{49| <f3> }|{15 | <f4> }}"];
+nodex14 :f4 ->nodex15
+nodex14 :f0-> data46
+nodex14 :f1-> data47
+nodex14 :f2-> data48
+nodex14 :f3-> data49
+nodex15[shape=record, label="{Inodo15|{50| <f0> }|{51| <f1> }|{52 | <f2> }|{53| <f3> }|{16 | <f4> }}"];
+nodex15 :f4 ->nodex16
+nodex15 :f0-> data50
+nodex15 :f1-> data51
+nodex15 :f2-> data52
+nodex15 :f3-> data53
+nodex16[shape=record, label="{Inodo16|{54| <f0> }|{55| <f1> }|{56 | <f2> }|{57| <f3> }|{17 | <f4> }}"];
+nodex16 :f4 ->nodex17
+nodex16 :f0-> data54
+nodex16 :f1-> data55
+nodex16 :f2-> data56
+nodex16 :f3-> data57
+nodex17[shape=record, label="{Inodo17|{58| <f0> }|{59| <f1> }|{60 | <f2> }|{61| <f3> }|{18 | <f4> }}"];
+nodex17 :f4 ->nodex18
+nodex17 :f0-> data58
+nodex17 :f1-> data59
+nodex17 :f2-> data60
+nodex17 :f3-> data61
+nodex18[shape=record, label="{Inodo18|{62| <f0> }|{63| <f1> }|{64 | <f2> }|{65| <f3> }|{*-1 | <f4> }}"];
+nodex18 :f0-> data62
+nodex18 :f1-> data63
+nodex18 :f2-> data64
+nodex18 :f3-> data65
+data46[shape=record, label="{data| <f1> lffgyhgyb214}}"];
+data47[shape=record, label="{data| <f1>  }}"];
+data48[shape=record, label="{data| <f1>  }}"];
+data49[shape=record, label="{data| <f1>  }}"];
+data50[shape=record, label="{data| <f1>  }}"];
+data51[shape=record, label="{data| <f1>  }}"];
+data52[shape=record, label="{data| <f1>  }}"];
+data53[shape=record, label="{data| <f1>  }}"];
+data54[shape=record, label="{data| <f1>  }}"];
+data55[shape=record, label="{data| <f1>  }}"];
+data56[shape=record, label="{data| <f1>  }}"];
+data57[shape=record, label="{data| <f1>  }}"];
+data58[shape=record, label="{data| <f1>  }}"];
+data59[shape=record, label="{data| <f1>  }}"];
+data60[shape=record, label="{data| <f1>  }}"];
+data61[shape=record, label="{data| <f1>  }}"];
+data62[shape=record, label="{data| <f1>  }}"];
+data63[shape=record, label="{data| <f1>  }}"];
+data64[shape=record, label="{data| <f1>  }}"];
+data65[shape=record, label="{data| <f1>  }}"];
+
+}

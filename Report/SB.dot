@@ -1,0 +1,39 @@
+digraph G{
+subgraph cluster{
+label="Super Bloque"
+tbl[shape=box,label=<
+<table border='0' cellborder='1' cellspacing='0' width='300'  height='200' >
+<tr>  <td width='150'> <b>Nombre</b> </td> <td width='150'> <b>Valor</b> </td>  </tr>
+<tr><td><b>Sb_nombre_hd</b></td><td>discoPrueba.dsk</td> </tr>*<tr><td><b>Sb_arbol_virtual_count</b></td><td>10308</td> </tr>
+<tr><td><b>Sb_detalle_directorio_count</b></td><td>10308</td> </tr>
+<tr><td><b>Sb_inodos_count</b></td><td>51540</td> </tr>
+<tr><td><b>Sb_bloques_count</b></td><td>206160</td> </tr>
+<tr><td><b>Sb_arbol_virtual_free</b></td><td>10291</td> </tr>
+<tr><td><b>Sb_detalle_directorio_free</b></td><td>10290</td> </tr>
+<tr><td><b>Sb_inodos_free</b></td><td>51519</td> </tr>
+<tr><td><b>Sb_bloques_free</b></td><td>206090</td> </tr>
+<tr><td><b>Sb_date_creacion</b></td><td>2020-09-13 19:24:55</td> </tr>
+<tr><td><b>Sb_date_ultimo_montaje</b></td><td>2020-09-13 19:24:55</td> </tr>
+<tr><td><b>Sb_montajes_count</b></td><td>1</td> </tr>
+<tr><td><b>Sb_ap_bitmap_arbol_directorio</b></td><td>504</td> </tr>
+<tr><td><b>Sb_ap_arbol_directorio</b></td><td>10812</td> </tr>
+<tr><td><b>Sb_ap_bitmap_detalle_directorio</b></td><td>1247772</td> </tr>
+<tr><td><b>Sb_ap_detalle_directorio</b></td><td>1258080</td> </tr>
+<tr><td><b>Sb_ap_bitmap_tabla_inodo</b></td><td>4721568</td> </tr>
+<tr><td><b>Sb_ap_tabla_inodo</b></td><td>4773108</td> </tr>
+<tr><td><b>Sb_ap_bitmap_bloques</b></td><td>8483988</td> </tr>
+<tr><td><b>Sb_ap_bloques</b></td><td>8690148</td> </tr>
+<tr><td><b>Sb_ap_log</b></td><td>13844148</td> </tr>
+<tr><td><b>Sb_size_struct_arbol_directorio</b></td><td>120</td> </tr>
+<tr><td><b>Sb_size_struct_Detalle_directorio</b></td><td>336</td> </tr>
+<tr><td><b>Sb_size_struct_inodo</b></td><td>72</td> </tr>
+<tr><td><b>Sb_size_struct_bloque</b></td><td>25</td> </tr>
+<tr><td><b>Sb_first_free_bit_arbol_directorio</b></td><td>521</td> </tr>
+<tr><td><b>Sb_first_free_bit_detalle_directoriio</b></td><td>1247773</td> </tr>
+<tr><td><b>Sb_dirst_free_bit_tabla_inodo</b></td><td>4721589</td> </tr>
+<tr><td><b>Sb_first_free_bit_bloques</b></td><td>8484058</td> </tr>
+<tr><td><b>Sb_magic_num</b></td><td>201701029</td> </tr>
+</table>
+>];
+}
+}

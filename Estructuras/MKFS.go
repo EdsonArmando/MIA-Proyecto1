@@ -203,10 +203,11 @@ func ExecuteMKFS(id string,ListaDiscos *list.List)(bool){
 	    }
     //Escribir Bitacoras
     f.Seek(InicioBitacora,0)
-	    i=0
-	    for i=0;i<Bitacoras;i++{
-	    	err = binary.Write(f, binary.BigEndian, &bitacora)
-	    }
+    i=0
+    bitacora.Size = -1
+    for i=0;i<Bitacoras;i++{
+    	err = binary.Write(f, binary.BigEndian, &bitacora)
+    }
     //Escribir Copia Super Boot
     f.Seek(InicioCopiaSB,0)
     err = binary.Write(f, binary.BigEndian, &superBloque)

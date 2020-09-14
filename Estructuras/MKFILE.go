@@ -113,6 +113,30 @@ func CrearArchivo(pathDisco string,nombreParticion string,pathArchivo string,_p 
 		return false
 	}
 	defer f.Close()
+	/*
+	Escribit en bitacora
+	*/
+	f.Seek(sb.Sb_ap_log,0)
+	bitacora := Bitacora{}
+	copy(bitacora.Log_tipo_operacion[:],"mkfile")
+    copy(bitacora.Log_tipo[:],"1")
+    copy(bitacora.Log_nombre[:],pathArchivo)
+    copy(bitacora.Log_Contenido[:],contenido[1:len(contenido)-1])
+    copy(bitacora.Log_fecha[:],dt.String())
+    bitacora.Size = int64(size)
+    bitacoraTemp := Bitacora{}
+    var bitBitacora int64 = 0
+    for i:=0;i<3000;i++{
+    	bitBitacora,_=f.Seek(0, os.SEEK_CUR)
+    	err = binary.Read(f, binary.BigEndian, &bitacoraTemp)
+    	if bitacoraTemp.Size==-1{
+    		f.Seek(bitBitacora,0)
+    		err = binary.Write(f, binary.BigEndian, &bitacora)
+    		break
+    	}
+    }
+	//EScribir Arbol Directorio
+
 	f.Seek(sb.Sb_ap_arbol_directorio,0)
 	for i:=0;i<int(sb.Sb_arbol_virtual_count);i++{
 		err = binary.Read(f, binary.BigEndian, &avd)

@@ -48,6 +48,41 @@ func ExecuteMKDIR(id string,path string, p string,ListaDiscos *list.List){
 	/*
 	Si no existen las carpetas se crean
 	*/
+	/*
+	Escribit en bitacora
+	*/
+	dt := time.Now()
+	sb:=SB{}
+	pathDisco,nombreParticion,_:=RecorrerListaDisco(id,ListaDiscos)
+	sb,_= DevolverSuperBlque(pathDisco,nombreParticion)
+	f, err := os.OpenFile(pathDisco,os.O_RDWR,0755)
+	if err != nil {
+		fmt.Println("No existe la ruta"+pathDisco)
+		
+	}
+	defer f.Close()
+	bitacora := Bitacora{}
+	copy(bitacora.Log_tipo_operacion[:],"mkdir")
+    copy(bitacora.Log_tipo[:],"0")
+    copy(bitacora.Log_nombre[:],path)
+    copy(bitacora.Log_Contenido[:],"")
+    copy(bitacora.Log_fecha[:],dt.String())
+    bitacora.Size = 1
+    bitacoraTemp := Bitacora{}
+    var bitBitacora int64 = 0
+    f.Seek(sb.Sb_ap_log,0)
+    for i:=0;i<3000;i++{
+    	bitBitacora,_=f.Seek(0, os.SEEK_CUR)
+    	err = binary.Read(f, binary.BigEndian, &bitacoraTemp)
+    	if bitacoraTemp.Size==-1{
+    		f.Seek(bitBitacora,0)
+    		err = binary.Write(f, binary.BigEndian, &bitacora)
+    		break
+    	}
+    }
+    /*
+    Ejecutando MKDIR
+    */
 	if p=="-p"{
 		pathDisco,nombreParticion,_:=RecorrerListaDisco(id,ListaDiscos)
 		RecorrePath(path,nombreParticion,pathDisco)

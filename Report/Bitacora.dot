@@ -1,0 +1,212 @@
+digraph G{
+rankdir=TB
+tbl1 [
+shape=box
+label=<
+<table border='5'  height='30' WIDTH='15.0' cellborder='1'>
+<tr>  <td height='60' colspan='6'>Log: 1</td>  </tr>
+<tr>  <td width='150'> <b>TipoOperacion</b> </td> <td width='150'> <b>Tipo</b> </td> <td width='150'> <b>Path</b> </td> <td width='150'> <b>Contenido</b> </td>  <td width='150'> <b>Fecha Log</b> </td> <td width='150'> <b>Size</b> </td></tr>
+<tr>  <td width='150'> <b>mkdir</b> </td> <td width='150'> <b>0</b> </td> <td width='150'> <b>/bin</b> </td> <td width='150'> <b>  </b> </td>  <td width='150'> <b>2020-09-13 19:24:56</b> </td> <td width='150'> <b>1</b> </td></tr>
+</table>
+>];
+tbl1-> tbl2 [color=white];
+tbl2 [
+shape=box
+label=<
+<table border='5'  height='30' WIDTH='15.0' cellborder='1'>
+<tr>  <td height='60' colspan='6'>Log: 2</td>  </tr>
+<tr>  <td width='150'> <b>TipoOperacion</b> </td> <td width='150'> <b>Tipo</b> </td> <td width='150'> <b>Path</b> </td> <td width='150'> <b>Contenido</b> </td>  <td width='150'> <b>Fecha Log</b> </td> <td width='150'> <b>Size</b> </td></tr>
+<tr>  <td width='150'> <b>mkdir</b> </td> <td width='150'> <b>0</b> </td> <td width='150'> <b>/usr</b> </td> <td width='150'> <b>  </b> </td>  <td width='150'> <b>2020-09-13 19:24:56</b> </td> <td width='150'> <b>1</b> </td></tr>
+</table>
+>];
+tbl2-> tbl3 [color=white];
+tbl3 [
+shape=box
+label=<
+<table border='5'  height='30' WIDTH='15.0' cellborder='1'>
+<tr>  <td height='60' colspan='6'>Log: 3</td>  </tr>
+<tr>  <td width='150'> <b>TipoOperacion</b> </td> <td width='150'> <b>Tipo</b> </td> <td width='150'> <b>Path</b> </td> <td width='150'> <b>Contenido</b> </td>  <td width='150'> <b>Fecha Log</b> </td> <td width='150'> <b>Size</b> </td></tr>
+<tr>  <td width='150'> <b>mkdir</b> </td> <td width='150'> <b>0</b> </td> <td width='150'> <b>/hola</b> </td> <td width='150'> <b>  </b> </td>  <td width='150'> <b>2020-09-13 19:24:56</b> </td> <td width='150'> <b>1</b> </td></tr>
+</table>
+>];
+tbl3-> tbl4 [color=white];
+tbl4 [
+shape=box
+label=<
+<table border='5'  height='30' WIDTH='15.0' cellborder='1'>
+<tr>  <td height='60' colspan='6'>Log: 4</td>  </tr>
+<tr>  <td width='150'> <b>TipoOperacion</b> </td> <td width='150'> <b>Tipo</b> </td> <td width='150'> <b>Path</b> </td> <td width='150'> <b>Contenido</b> </td>  <td width='150'> <b>Fecha Log</b> </td> <td width='150'> <b>Size</b> </td></tr>
+<tr>  <td width='150'> <b>mkdir</b> </td> <td width='150'> <b>0</b> </td> <td width='150'> <b>/etc/</b> </td> <td width='150'> <b>  </b> </td>  <td width='150'> <b>2020-09-13 19:24:56</b> </td> <td width='150'> <b>1</b> </td></tr>
+</table>
+>];
+tbl4-> tbl5 [color=white];
+tbl5 [
+shape=box
+label=<
+<table border='5'  height='30' WIDTH='15.0' cellborder='1'>
+<tr>  <td height='60' colspan='6'>Log: 5</td>  </tr>
+<tr>  <td width='150'> <b>TipoOperacion</b> </td> <td width='150'> <b>Tipo</b> </td> <td width='150'> <b>Path</b> </td> <td width='150'> <b>Contenido</b> </td>  <td width='150'> <b>Fecha Log</b> </td> <td width='150'> <b>Size</b> </td></tr>
+<tr>  <td width='150'> <b>mkdir</b> </td> <td width='150'> <b>0</b> </td> <td width='150'> <b>/home/user/docs</b> </td> <td width='150'> <b>  </b> </td>  <td width='150'> <b>2020-09-13 19:24:56</b> </td> <td width='150'> <b>1</b> </td></tr>
+</table>
+>];
+tbl5-> tbl6 [color=white];
+tbl6 [
+shape=box
+label=<
+<table border='5'  height='30' WIDTH='15.0' cellborder='1'>
+<tr>  <td height='60' colspan='6'>Log: 6</td>  </tr>
+<tr>  <td width='150'> <b>TipoOperacion</b> </td> <td width='150'> <b>Tipo</b> </td> <td width='150'> <b>Path</b> </td> <td width='150'> <b>Contenido</b> </td>  <td width='150'> <b>Fecha Log</b> </td> <td width='150'> <b>Size</b> </td></tr>
+<tr>  <td width='150'> <b>mkdir</b> </td> <td width='150'> <b>0</b> </td> <td width='150'> <b>/home/usr1</b> </td> <td width='150'> <b>  </b> </td>  <td width='150'> <b>2020-09-13 19:24:56</b> </td> <td width='150'> <b>1</b> </td></tr>
+</table>
+>];
+tbl6-> tbl7 [color=white];
+tbl7 [
+shape=box
+label=<
+<table border='5'  height='30' WIDTH='15.0' cellborder='1'>
+<tr>  <td height='60' colspan='6'>Log: 7</td>  </tr>
+<tr>  <td width='150'> <b>TipoOperacion</b> </td> <td width='150'> <b>Tipo</b> </td> <td width='150'> <b>Path</b> </td> <td width='150'> <b>Contenido</b> </td>  <td width='150'> <b>Fecha Log</b> </td> <td width='150'> <b>Size</b> </td></tr>
+<tr>  <td width='150'> <b>mkdir</b> </td> <td width='150'> <b>0</b> </td> <td width='150'> <b>/home/usr2</b> </td> <td width='150'> <b>  </b> </td>  <td width='150'> <b>2020-09-13 19:24:56</b> </td> <td width='150'> <b>1</b> </td></tr>
+</table>
+>];
+tbl7-> tbl8 [color=white];
+tbl8 [
+shape=box
+label=<
+<table border='5'  height='30' WIDTH='15.0' cellborder='1'>
+<tr>  <td height='60' colspan='6'>Log: 8</td>  </tr>
+<tr>  <td width='150'> <b>TipoOperacion</b> </td> <td width='150'> <b>Tipo</b> </td> <td width='150'> <b>Path</b> </td> <td width='150'> <b>Contenido</b> </td>  <td width='150'> <b>Fecha Log</b> </td> <td width='150'> <b>Size</b> </td></tr>
+<tr>  <td width='150'> <b>mkdir</b> </td> <td width='150'> <b>0</b> </td> <td width='150'> <b>/home/usr3</b> </td> <td width='150'> <b>  </b> </td>  <td width='150'> <b>2020-09-13 19:24:56</b> </td> <td width='150'> <b>1</b> </td></tr>
+</table>
+>];
+tbl8-> tbl9 [color=white];
+tbl9 [
+shape=box
+label=<
+<table border='5'  height='30' WIDTH='15.0' cellborder='1'>
+<tr>  <td height='60' colspan='6'>Log: 9</td>  </tr>
+<tr>  <td width='150'> <b>TipoOperacion</b> </td> <td width='150'> <b>Tipo</b> </td> <td width='150'> <b>Path</b> </td> <td width='150'> <b>Contenido</b> </td>  <td width='150'> <b>Fecha Log</b> </td> <td width='150'> <b>Size</b> </td></tr>
+<tr>  <td width='150'> <b>mkdir</b> </td> <td width='150'> <b>0</b> </td> <td width='150'> <b>/home/usr4</b> </td> <td width='150'> <b>  </b> </td>  <td width='150'> <b>2020-09-13 19:24:56</b> </td> <td width='150'> <b>1</b> </td></tr>
+</table>
+>];
+tbl9-> tbl10 [color=white];
+tbl10 [
+shape=box
+label=<
+<table border='5'  height='30' WIDTH='15.0' cellborder='1'>
+<tr>  <td height='60' colspan='6'>Log: 10</td>  </tr>
+<tr>  <td width='150'> <b>TipoOperacion</b> </td> <td width='150'> <b>Tipo</b> </td> <td width='150'> <b>Path</b> </td> <td width='150'> <b>Contenido</b> </td>  <td width='150'> <b>Fecha Log</b> </td> <td width='150'> <b>Size</b> </td></tr>
+<tr>  <td width='150'> <b>mkdir</b> </td> <td width='150'> <b>0</b> </td> <td width='150'> <b>/home/usr5</b> </td> <td width='150'> <b>  </b> </td>  <td width='150'> <b>2020-09-13 19:24:56</b> </td> <td width='150'> <b>1</b> </td></tr>
+</table>
+>];
+tbl10-> tbl11 [color=white];
+tbl11 [
+shape=box
+label=<
+<table border='5'  height='30' WIDTH='15.0' cellborder='1'>
+<tr>  <td height='60' colspan='6'>Log: 11</td>  </tr>
+<tr>  <td width='150'> <b>TipoOperacion</b> </td> <td width='150'> <b>Tipo</b> </td> <td width='150'> <b>Path</b> </td> <td width='150'> <b>Contenido</b> </td>  <td width='150'> <b>Fecha Log</b> </td> <td width='150'> <b>Size</b> </td></tr>
+<tr>  <td width='150'> <b>mkdir</b> </td> <td width='150'> <b>0</b> </td> <td width='150'> <b>/home/usr6</b> </td> <td width='150'> <b>  </b> </td>  <td width='150'> <b>2020-09-13 19:24:56</b> </td> <td width='150'> <b>1</b> </td></tr>
+</table>
+>];
+tbl11-> tbl12 [color=white];
+tbl12 [
+shape=box
+label=<
+<table border='5'  height='30' WIDTH='15.0' cellborder='1'>
+<tr>  <td height='60' colspan='6'>Log: 12</td>  </tr>
+<tr>  <td width='150'> <b>TipoOperacion</b> </td> <td width='150'> <b>Tipo</b> </td> <td width='150'> <b>Path</b> </td> <td width='150'> <b>Contenido</b> </td>  <td width='150'> <b>Fecha Log</b> </td> <td width='150'> <b>Size</b> </td></tr>
+<tr>  <td width='150'> <b>mkdir</b> </td> <td width='150'> <b>0</b> </td> <td width='150'> <b>/home/usr7</b> </td> <td width='150'> <b>  </b> </td>  <td width='150'> <b>2020-09-13 19:24:56</b> </td> <td width='150'> <b>1</b> </td></tr>
+</table>
+>];
+tbl12-> tbl13 [color=white];
+tbl13 [
+shape=box
+label=<
+<table border='5'  height='30' WIDTH='15.0' cellborder='1'>
+<tr>  <td height='60' colspan='6'>Log: 13</td>  </tr>
+<tr>  <td width='150'> <b>TipoOperacion</b> </td> <td width='150'> <b>Tipo</b> </td> <td width='150'> <b>Path</b> </td> <td width='150'> <b>Contenido</b> </td>  <td width='150'> <b>Fecha Log</b> </td> <td width='150'> <b>Size</b> </td></tr>
+<tr>  <td width='150'> <b>mkdir</b> </td> <td width='150'> <b>0</b> </td> <td width='150'> <b>/home/usr8</b> </td> <td width='150'> <b>  </b> </td>  <td width='150'> <b>2020-09-13 19:24:56</b> </td> <td width='150'> <b>1</b> </td></tr>
+</table>
+>];
+tbl13-> tbl14 [color=white];
+tbl14 [
+shape=box
+label=<
+<table border='5'  height='30' WIDTH='15.0' cellborder='1'>
+<tr>  <td height='60' colspan='6'>Log: 14</td>  </tr>
+<tr>  <td width='150'> <b>TipoOperacion</b> </td> <td width='150'> <b>Tipo</b> </td> <td width='150'> <b>Path</b> </td> <td width='150'> <b>Contenido</b> </td>  <td width='150'> <b>Fecha Log</b> </td> <td width='150'> <b>Size</b> </td></tr>
+<tr>  <td width='150'> <b>mkfile</b> </td> <td width='150'> <b>1</b> </td> <td width='150'> <b>/home/user/docs/alice.txt</b> </td> <td width='150'> <b> EdsonGuix                 </b> </td>  <td width='150'> <b>2020-09-13 19:24:56</b> </td> <td width='150'> <b>1000</b> </td></tr>
+</table>
+>];
+tbl14-> tbl15 [color=white];
+tbl15 [
+shape=box
+label=<
+<table border='5'  height='30' WIDTH='15.0' cellborder='1'>
+<tr>  <td height='60' colspan='6'>Log: 15</td>  </tr>
+<tr>  <td width='150'> <b>TipoOperacion</b> </td> <td width='150'> <b>Tipo</b> </td> <td width='150'> <b>Path</b> </td> <td width='150'> <b>Contenido</b> </td>  <td width='150'> <b>Fecha Log</b> </td> <td width='150'> <b>Size</b> </td></tr>
+<tr>  <td width='150'> <b>mkfile</b> </td> <td width='150'> <b>1</b> </td> <td width='150'> <b>/home/user/docs/alice2.txt</b> </td> <td width='150'> <b> lffgyhgyb214              </b> </td>  <td width='150'> <b>2020-09-13 19:24:57</b> </td> <td width='150'> <b>50</b> </td></tr>
+</table>
+>];
+tbl15-> tbl16 [color=white];
+tbl16 [
+shape=box
+label=<
+<table border='5'  height='30' WIDTH='15.0' cellborder='1'>
+<tr>  <td height='60' colspan='6'>Log: 16</td>  </tr>
+<tr>  <td width='150'> <b>TipoOperacion</b> </td> <td width='150'> <b>Tipo</b> </td> <td width='150'> <b>Path</b> </td> <td width='150'> <b>Contenido</b> </td>  <td width='150'> <b>Fecha Log</b> </td> <td width='150'> <b>Size</b> </td></tr>
+<tr>  <td width='150'> <b>mkfile</b> </td> <td width='150'> <b>1</b> </td> <td width='150'> <b>/home/user/docs/alice3.txt</b> </td> <td width='150'> <b> lffgyhgyb214  </b> </td>  <td width='150'> <b>2020-09-13 19:24:57</b> </td> <td width='150'> <b>15</b> </td></tr>
+</table>
+>];
+tbl16-> tbl17 [color=white];
+tbl17 [
+shape=box
+label=<
+<table border='5'  height='30' WIDTH='15.0' cellborder='1'>
+<tr>  <td height='60' colspan='6'>Log: 17</td>  </tr>
+<tr>  <td width='150'> <b>TipoOperacion</b> </td> <td width='150'> <b>Tipo</b> </td> <td width='150'> <b>Path</b> </td> <td width='150'> <b>Contenido</b> </td>  <td width='150'> <b>Fecha Log</b> </td> <td width='150'> <b>Size</b> </td></tr>
+<tr>  <td width='150'> <b>mkfile</b> </td> <td width='150'> <b>1</b> </td> <td width='150'> <b>/home/user/docs/alice4.txt</b> </td> <td width='150'> <b> lffgyhgyb214  </b> </td>  <td width='150'> <b>2020-09-13 19:24:57</b> </td> <td width='150'> <b>15</b> </td></tr>
+</table>
+>];
+tbl17-> tbl18 [color=white];
+tbl18 [
+shape=box
+label=<
+<table border='5'  height='30' WIDTH='15.0' cellborder='1'>
+<tr>  <td height='60' colspan='6'>Log: 18</td>  </tr>
+<tr>  <td width='150'> <b>TipoOperacion</b> </td> <td width='150'> <b>Tipo</b> </td> <td width='150'> <b>Path</b> </td> <td width='150'> <b>Contenido</b> </td>  <td width='150'> <b>Fecha Log</b> </td> <td width='150'> <b>Size</b> </td></tr>
+<tr>  <td width='150'> <b>mkfile</b> </td> <td width='150'> <b>1</b> </td> <td width='150'> <b>/home/user/docs/alice8.txt</b> </td> <td width='150'> <b> lffgyhgyb214              </b> </td>  <td width='150'> <b>2020-09-13 19:24:57</b> </td> <td width='150'> <b>500</b> </td></tr>
+</table>
+>];
+tbl18-> tbl19 [color=white];
+tbl19 [
+shape=box
+label=<
+<table border='5'  height='30' WIDTH='15.0' cellborder='1'>
+<tr>  <td height='60' colspan='6'>Log: 19</td>  </tr>
+<tr>  <td width='150'> <b>TipoOperacion</b> </td> <td width='150'> <b>Tipo</b> </td> <td width='150'> <b>Path</b> </td> <td width='150'> <b>Contenido</b> </td>  <td width='150'> <b>Fecha Log</b> </td> <td width='150'> <b>Size</b> </td></tr>
+<tr>  <td width='150'> <b>mkfile</b> </td> <td width='150'> <b>1</b> </td> <td width='150'> <b>/home/user/docs/prueba.txt</b> </td> <td width='150'> <b> lffgyhgyb214              </b> </td>  <td width='150'> <b>2020-09-13 19:24:57</b> </td> <td width='150'> <b>50</b> </td></tr>
+</table>
+>];
+tbl19-> tbl20 [color=white];
+tbl20 [
+shape=box
+label=<
+<table border='5'  height='30' WIDTH='15.0' cellborder='1'>
+<tr>  <td height='60' colspan='6'>Log: 20</td>  </tr>
+<tr>  <td width='150'> <b>TipoOperacion</b> </td> <td width='150'> <b>Tipo</b> </td> <td width='150'> <b>Path</b> </td> <td width='150'> <b>Contenido</b> </td>  <td width='150'> <b>Fecha Log</b> </td> <td width='150'> <b>Size</b> </td></tr>
+<tr>  <td width='150'> <b>mkfile</b> </td> <td width='150'> <b>1</b> </td> <td width='150'> <b>/home/user/docs/prueba.txt</b> </td> <td width='150'> <b> lffgyhgyb214              </b> </td>  <td width='150'> <b>2020-09-13 19:24:57</b> </td> <td width='150'> <b>50</b> </td></tr>
+</table>
+>];
+tbl20-> tbl21 [color=white];
+tbl21 [
+shape=box
+label=<
+<table border='5'  height='30' WIDTH='15.0' cellborder='1'>
+<tr>  <td height='60' colspan='6'>Log: 21</td>  </tr>
+<tr>  <td width='150'> <b>TipoOperacion</b> </td> <td width='150'> <b>Tipo</b> </td> <td width='150'> <b>Path</b> </td> <td width='150'> <b>Contenido</b> </td>  <td width='150'> <b>Fecha Log</b> </td> <td width='150'> <b>Size</b> </td></tr>
+<tr>  <td width='150'> <b>mkfile</b> </td> <td width='150'> <b>1</b> </td> <td width='150'> <b>/home/usr5/prueba4.txt</b> </td> <td width='150'> <b> lffgyhgyb214              </b> </td>  <td width='150'> <b>2020-09-13 19:24:57</b> </td> <td width='150'> <b>50</b> </td></tr>
+</table>
+>];
+}

@@ -140,9 +140,10 @@ type Bloque struct{
 type Bitacora struct{
     Log_tipo_operacion [19]byte
     Log_tipo [1]byte
-    Log_nombre [15]byte
+    Log_nombre [35]byte
     Log_Contenido [25]byte
     Log_fecha [19]byte
+    Size int64
 }
 
 //
